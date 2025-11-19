@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evidence Portal - Confidential Legal Analysis</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #34495e;
+            --accent: #2980b9;
+            --bg: #f5f7fa;
+            --white: #ffffff;
+            --border: #dcdcdc;
+            --text: #333333;
+            --muted: #7f8c8d;
+            --danger: #c0392b;
+            --sidebar-width: 280px;
+        }
+
+        * { box-sizing: border-box; outline: none; }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Navigation */
+        #sidebar {
+            width: var(--sidebar-width);
+            background: var(--white);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        #sidebar h2 {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary);
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--border);
+            margin: 0 0 15px;
+        }
+
+        .nav-group { margin-bottom: 20px; }
+        
+        .nav-header {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            padding: 5px 20px;
+            margin-bottom: 5px;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 20px;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.95rem;
+            border-left: 4px solid transparent;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .nav-item:hover { background: #f0f2f5; }
+        
+        .nav-item.active {
+            background: #eaf2f8;
+            color: var(--accent);
+            border-left-color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Main Content Area */
+        #main {
+            flex: 1;
+            padding: 40px 60px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+
+        .header-section {
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+        }
+
+        h1 { margin: 0; color: var(--primary); font-size: 2rem; }
+        .subtitle { color: var(--muted); margin-top: 5px; font-style: italic; }
+
+        /* Category Sections */
+        section { margin-bottom: 60px; scroll-margin-top: 20px; }
+
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            border-bottom: 2px solid var(--secondary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            color: var(--primary);
+            margin: 0;
+        }
+
+        .section-desc { font-size: 0.95rem; color: var(--muted); }
+
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s;
+        }
+
+        .card:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.05); }
+
+        .card-type {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            line-height: 1.4;
+            color: var(--primary);
+        }
+
+        .card-meta {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-bottom: 15px;
+        }
+
+        .card-actions {
+            margin-top: auto;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 8px 14px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn:hover { background: #dfe6e9; }
+        .btn-primary { background: var(--secondary); color: var(--white); border-color: var(--secondary); }
+        .btn-primary:hover { background: var(--primary); }
+        
+        .btn-expand {
+            background: none; border: none; color: var(--accent);
+            padding: 0; margin-top: 10px; font-size: 0.85rem;
+            cursor: pointer; text-decoration: underline;
+            text-align: left;
+        }
+
+        /* Embedded Video */
+        .video-container {
+            margin-top: 15px;
+            border-radius: 4px;
+            overflow: hidden;
+            background: #000;
+            display: none;
+        }
+        .video-container.active { display: block; }
+        video { width: 100%; display: block; }
+
+        /* Modal */
+        .modal-backdrop {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(3px);
+        }
+
+        .modal {
+            background: var(--white);
+            width: 90%; max-width: 900px; max-height: 90vh;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            padding: 15px 25px;
+            border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .modal-title { font-weight: 600; font-size: 1.2rem; }
+        .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--muted); }
+
+        .modal-content {
+            padding: 30px;
+            overflow-y: auto;
+            font-family: 'Georgia', serif; /* Legal reading font */
+            line-height: 1.7;
+            font-size: 1.05rem;
+            color: #222;
+        }
+
+        .modal-content img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+        
+        .modal-footer {
+            padding: 15px 25px;
+            background: var(--bg);
+            border-top: 1px solid var(--border);
+            display: flex; justify-content: flex-end; gap: 10px;
+        }
+
+        /* Print Styling */
+        @media print {
+            body { height: auto; overflow: visible; display: block; background: white; }
+            #sidebar, .card-actions, .modal-footer, .modal-close, .btn-expand { display: none !important; }
+            #main { display: none; } /* Hide interface */
+            .modal-backdrop { 
+                position: static; background: none; display: block !important; 
+                height: auto; width: 100%; 
+            }
+            .modal { 
+                box-shadow: none; border: none; width: 100%; max-width: 100%; 
+            }
+            .modal-content { padding: 0; font-size: 12pt; }
+            .print-header {
+                display: block; border-bottom: 2px solid #000; margin-bottom: 20px; padding-bottom: 10px;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            body { flex-direction: column; overflow: auto; }
+            #sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+            #main { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav id="sidebar">
+    <h2>Evidence Portal</h2>
+    <div id="nav-links"></div>
+</nav>
+
+<main id="main">
+    <div class="header-section">
+        <h1>Confidential Evidence Analysis</h1>
+        <div class="subtitle">Privileged Work Product • Prepared for Legal Review</div>
+    </div>
+    <div id="content-root"></div>
+</main>
+
+<!-- Modal Viewer -->
+<div class="modal-backdrop" id="modal">
+    <div class="modal">
+        <div class="modal-header">
+            <div class="modal-title" id="modalTitle">Document Viewer</div>
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-content" id="modalBody"></div>
+        <div class="modal-footer">
+            <button class="btn" onclick="window.print()">🖨️ Print Report</button>
+            <button class="btn" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    /* =========================================
+       DATA CONFIGURATION
+       ========================================= */
+    
+    // Helper to build URLs that work locally AND on GitHub Pages
+    function getUrl(path) {
+        const cleanPath = path.replace(/^\//, ''); // Remove leading slash
+        // If on file:// protocol, use GitHub Raw for text/data to avoid CORS
+        // For images/videos, local file:// access works fine usually, but raw is safer for consistency if needed.
+        if (location.protocol === 'file:') {
+             return 'https://raw.githubusercontent.com/averybee24601/ai-evidence-public/main/' + encodeURI(cleanPath);
+        }
+        // Otherwise (GitHub Pages), use relative path
+        return encodeURI(cleanPath);
+    }
+
+    const categories = [
+        { id: 'alcohol', label: 'Alcohol Violations', desc: 'Evidence of management drinking on duty and promotion of hard liquor.' },
+        { id: 'sexual', label: 'Sexual Exposure', desc: 'Sexualized performances and adult content involving vulnerable individuals.' },
+        { id: 'exploitation', label: 'Exploitation & Coercion', desc: 'Unauthorized recording and potential exploitation of employees.' },
+        { id: 'discrimination', label: 'Discrimination / Retaliation', desc: 'Retaliatory hours reduction and dismissive conduct.' },
+        { id: 'unsafe', label: 'Unsafe Supervision', desc: 'Inaccessible environments and ignored safety concerns.' },
+        { id: 'licensing', label: 'Licensing Violations', desc: 'Formal complaints regarding liquor laws.' },
+        { id: 'wage', label: 'Wage Theft / Labor', desc: 'Unfair scheduling and labor practices.' },
+        { id: 'misrepresentation', label: 'Misrepresentation', desc: 'Deceptive marketing and political promotion.' },
+        { id: 'final', label: 'Final Reports', desc: 'Comprehensive summaries, timelines, and formal complaints.' },
+        { id: 'testimonies', label: 'Testimonies', desc: 'Witness and employee statements.' },
+        { id: 'profiles', label: 'Employee Profiles', desc: 'Identified individuals in the evidence.' }
+    ];
+
+    const database = [
+        // --- ALCOHOL ---
+        {
+            cat: 'alcohol', type: 'report', title: 'Analysis: Management Drinking', 
+            path: 'data/AR/Analysis of trimmed-Management drinking (3).mp4 (2).txt',
+            video: 'data/Analyzed files/trimmed-Management drinking (3).mp4'
+        },
+        {
+            cat: 'alcohol', type: 'report', title: 'Analysis: Liquor Promotion',
+            path: 'data/AR/Analysis of menu promotion of hard liqour based cocktails.jpg + hard liqour, cocktails spirits.jpg + social media post advertising wine products.jpg (2).txt',
+            image: 'data/Analyzed files/menu promotion of hard liqour based cocktails.jpg'
+        },
+        {
+            cat: 'alcohol', type: 'evidence', title: 'Video: Management Drinking',
+            path: 'data/Analyzed files/trimmed-Management drinking (3).mp4', isVideo: true
+        },
+
+        // --- SEXUAL ---
+        {
+            cat: 'sexual', type: 'report', title: 'Analysis: Magic Mike Performance',
+            path: 'data/AR/Analysis of Magic mike Jose.mp4.txt',
+            video: 'data/Analyzed files/Magic mike Jose.mp4'
+        },
+        {
+            cat: 'sexual', type: 'report', title: 'Analysis: Girls Night Out',
+            path: 'data/AR/Analysis_Girls_night_out_combined_full.txt',
+            image: 'data/Analyzed files/Girls night out.png'
+        },
+        {
+            cat: 'sexual', type: 'evidence', title: 'Video: Magic Mike Routine',
+            path: 'data/Analyzed files/Magic mike Jose.mp4', isVideo: true
+        },
+        {
+            cat: 'sexual', type: 'evidence', title: 'Video: Jose Dancing',
+            path: 'data/Analyzed files/jose dancing girls night out.mp4', isVideo: true
+        },
+
+        // --- EXPLOITATION ---
+        {
+            cat: 'exploitation', type: 'report', title: 'Analysis: Unauthorized Footage',
+            path: 'data/AR/Analysis of video_unauthorized_youtube_footage.mp4.txt',
+            video: 'data/Analyzed files/video_unauthorized_youtube_footage.mp4'
+        },
+        {
+            cat: 'exploitation', type: 'report', title: 'Analysis: Physical Contact',
+            path: 'data/AR/Analysis of photo_person_sitting_on_person_brewability_stage.png.txt',
+            image: 'data/Analyzed files/photo_person_sitting_on_person_brewability_stage.png'
+        },
+        {
+            cat: 'exploitation', type: 'evidence', title: 'Video: Unauthorized Youtube',
+            path: 'data/Analyzed files/video_unauthorized_youtube_footage.mp4', isVideo: true
+        },
+
+        // --- DISCRIMINATION ---
+        {
+            cat: 'discrimination', type: 'report', title: 'Analysis: Retaliatory Hours Cut',
+            path: 'data/AR/Analysis of Retaliatory hours cut due to refusal to ban caregiver - Copy.jpg.txt',
+            image: 'data/Analyzed files/Retaliatory hours cut due to refusal to ban caregiver - Copy.jpg'
+        },
+        {
+            cat: 'discrimination', type: 'report', title: 'Analysis: Dismissive Texts',
+            path: 'data/AR/Analysis of text.png.txt',
+            image: 'data/Analyzed files/text.png'
+        },
+
+        // --- UNSAFE ---
+        {
+            cat: 'unsafe', type: 'report', title: 'Analysis: Inaccessible Environment',
+            path: 'data/AR/Analysis of inaccessible work environment.jpg.txt',
+            image: 'data/Analyzed files/inaccessible work environment.jpg'
+        },
+
+        // --- MISREPRESENTATION ---
+        {
+            cat: 'misrepresentation', type: 'report', title: 'Analysis: Ideology Promotion',
+            path: 'data/AR/Analysis of brewability political ideology promotion.png.txt',
+            image: 'data/Analyzed files/brewability political ideology promotion.png'
+        },
+
+        // --- FINAL REPORTS ---
+        { cat: 'final', type: 'final', title: 'Comprehensive Analysis', path: 'data/Final Reports/COMPREHENSIVE ANALYSIS - Brewability Workplace Misconduct and Exploitation.txt' },
+        { cat: 'final', type: 'final', title: 'Executive Summary', path: 'data/Final Reports/EXECUTIVE SUMMARY - Key Findings and Evidence.txt' },
+        { cat: 'final', type: 'final', title: 'Timeline of Exploitation', path: 'data/Final Reports/TIMELINE - Chronological Pattern of Exploitation.txt' },
+        { cat: 'final', type: 'final', title: 'Report of Exploitation', path: 'data/Final Reports/REPORT OF EXPLOITATION, COERCION, AND UNSAFE CONDITIONS.txt' },
+
+        // --- LICENSING ---
+        { cat: 'licensing', type: 'final', title: 'Formal Complaint (Licensing)', path: 'data/Final Reports/FORMAL COMPLAINT TO THE ENGLEWOOD LOCAL LICENSING AUTHORITY.TXT' },
+        { cat: 'licensing', type: 'final', title: 'LED Complaint Report', path: 'data/Final Reports/LED COMPLAINT REPORT (Colorado Liqour.txt).txt' },
+
+        // --- TESTIMONIES ---
+        { cat: 'testimonies', type: 'testimony', title: 'Testimony: Juliana', path: 'data/Testimonies/Employee Testimony - Juliana.txt' },
+        { cat: 'testimonies', type: 'testimony', title: 'Testimony: Avery/User', path: 'data/Testimonies/My Testimony.txt' },
+
+        // --- PROFILES ---
+        // Using images directly to avoid JSON errors
+        { cat: 'profiles', type: 'profile', title: 'Tiffany Fixter', image: 'data/Profiles/Tiffany Fixter.reference.png', desc: 'Owner / Manager' },
+        { cat: 'profiles', type: 'profile', title: 'Jess', image: 'data/Profiles/Jess.reference.png', desc: 'Manager' },
+        { cat: 'profiles', type: 'profile', title: 'Jose', image: 'data/Profiles/Jose.reference.png', desc: 'Employee' },
+        { cat: 'profiles', type: 'profile', title: 'Juliana', image: 'data/Profiles/Juliana.reference.png', desc: 'Employee' },
+        { cat: 'profiles', type: 'profile', title: 'Connor', image: 'data/Profiles/Connor.reference.png', desc: 'Employee' },
+        { cat: 'profiles', type: 'profile', title: 'Avery Becker', image: 'data/Profiles/Avery Becker.reference.png', desc: 'Employee' }
+    ];
+
+    /* =========================================
+       RENDER LOGIC
+       ========================================= */
+
+    function init() {
+        renderNav();
+        renderContent();
+    }
+
+    function renderNav() {
+        const container = document.getElementById('nav-links');
+        const groups = {
+            'Evidence Categories': categories.filter(c => !['final', 'testimonies', 'profiles'].includes(c.id)),
+            'Global Reports': categories.filter(c => ['final', 'testimonies', 'profiles'].includes(c.id))
+        };
+
+        for (const [groupName, cats] of Object.entries(groups)) {
+            const groupDiv = document.createElement('div');
+            groupDiv.className = 'nav-group';
+            groupDiv.innerHTML = `<div class="nav-header">${groupName}</div>`;
+            
+            cats.forEach(cat => {
+                const link = document.createElement('a');
+                link.className = 'nav-item';
+                link.textContent = cat.label;
+                link.onclick = () => scrollToSection(cat.id);
+                groupDiv.appendChild(link);
+            });
+            container.appendChild(groupDiv);
+        }
+    }
+
+    function scrollToSection(id) {
+        const el = document.getElementById(`sec-${id}`);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function renderContent() {
+        const root = document.getElementById('content-root');
+        
+        categories.forEach(cat => {
+            const items = database.filter(i => i.cat === cat.id);
+            if (items.length === 0) return;
+
+            const section = document.createElement('section');
+            section.id = `sec-${cat.id}`;
+            
+            section.innerHTML = `
+                <div class="section-header">
+                    <h2 class="section-title">${cat.label}</h2>
+                </div>
+                <p class="section-desc">${cat.desc}</p>
+                <div class="grid"></div>
+            `;
+
+            const grid = section.querySelector('.grid');
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = buildCard(item);
+                grid.appendChild(card);
+            });
+
+            root.appendChild(section);
+        });
+    }
+
+    function buildCard(item) {
+        // Logic for different card types
+        let buttons = '';
+        let expander = '';
+        const typeLabel = item.type.toUpperCase();
+
+        if (item.isVideo) {
+            buttons = `<button class="btn btn-primary" onclick="openVideoModal('${item.path}', '${item.title}')">▶ View Video</button>`;
+        } else if (item.type === 'profile') {
+             // Profile Card
+             return `
+                <div class="card-type">${typeLabel}</div>
+                <img src="${getUrl(item.image)}" style="width:100%; height:200px; object-fit:cover; border-radius:4px; margin-bottom:10px;">
+                <div class="card-title">${item.title}</div>
+                <div class="card-meta">${item.desc}</div>
+             `;
+        } else {
+            // Report / Document
+            buttons = `
+                <button class="btn btn-primary" onclick="openReportModal('${item.path}', '${item.title}')">📄 View Analysis</button>
+                <button class="btn" onclick="generateReport('${item.path}', '${item.title}')">🖨️ Generate Report</button>
+            `;
+            
+            if (item.video) {
+                expander = `
+                    <button class="btn-expand" onclick="toggleVideo(this, '${item.video}')">▶ Expand to watch related video</button>
+                    <div class="video-container"></div>
+                `;
+            }
+        }
+
+        return `
+            <div class="card-type">${typeLabel}</div>
+            <div class="card-title">${item.title}</div>
+            ${item.image && !item.type === 'profile' ? `<div class="card-meta">Includes Evidence Image</div>` : ''}
+            <div class="card-actions">${buttons}</div>
+            ${expander}
+        `;
+    }
+
+    /* =========================================
+       INTERACTIONS
+       ========================================= */
+
+    async function openReportModal(path, title) {
+        const modal = document.getElementById('modal');
+        const body = document.getElementById('modalBody');
+        const titleEl = document.getElementById('modalTitle');
+        
+        titleEl.textContent = title;
+        body.innerHTML = '<div style="text-align:center; padding:20px;">Loading document...</div>';
+        modal.style.display = 'flex';
+
+        try {
+            const url = getUrl(path);
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('Network error');
+            const text = await response.text();
+            
+            // Format text for reading
+            const safeText = text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/\n/g, '<br>')
+                .replace(/={5,}/g, '<hr>');
+
+            body.innerHTML = `<div style="max-width:800px; margin:0 auto;">${safeText}</div>`;
+        } catch (e) {
+            body.innerHTML = `
+                <div style="color:#c0392b; text-align:center;">
+                    <h3>Unable to load document</h3>
+                    <p>If you are viewing this file locally, security settings may block file access.</p>
+                    <a href="${getUrl(path)}" target="_blank" class="btn">Open in New Tab</a>
+                </div>
+            `;
+        }
+    }
+
+    async function generateReport(path, title) {
+        const modal = document.getElementById('modal');
+        const body = document.getElementById('modalBody');
+        const titleEl = document.getElementById('modalTitle');
+        
+        titleEl.textContent = `Report: ${title}`;
+        modal.style.display = 'flex';
+        body.innerHTML = 'Generating print view...';
+
+        try {
+            const url = getUrl(path);
+            const response = await fetch(url);
+            const text = await response.text();
+            
+            body.innerHTML = `
+                <div class="print-header" style="display:none;">
+                    <h1>Official Evidence Report</h1>
+                    <p><strong>Subject:</strong> ${title}</p>
+                    <p><strong>Date:</strong> ${new Date().toLocaleDateString()}</p>
+                </div>
+                <div style="font-family:'Times New Roman', serif; white-space: pre-wrap; font-size:12pt;">
+                    ${text.replace(/</g, '&lt;')}
+                </div>
+            `;
+        } catch (e) {
+            body.textContent = "Error generating report.";
+        }
+    }
+
+    function openVideoModal(path, title) {
+        const modal = document.getElementById('modal');
+        const body = document.getElementById('modalBody');
+        document.getElementById('modalTitle').textContent = title;
+        
+        modal.style.display = 'flex';
+        body.innerHTML = `
+            <video controls autoplay style="width:100%; max-height:70vh; background:black;">
+                <source src="${getUrl(path)}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        `;
+    }
+
+    function toggleVideo(btn, path) {
+        const container = btn.nextElementSibling;
+        if (container.classList.contains('active')) {
+            container.classList.remove('active');
+            container.innerHTML = '';
+            btn.textContent = '▶ Expand to watch related video';
+        } else {
+            container.classList.add('active');
+            container.innerHTML = `
+                <video controls>
+                    <source src="${getUrl(path)}" type="video/mp4">
+                </video>
+            `;
+            btn.textContent = '▼ Close video';
+        }
+    }
+
+    function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+        document.getElementById('modalBody').innerHTML = ''; // Stop media
+    }
+
+    // Close modal on click outside
+    document.getElementById('modal').addEventListener('click', e => {
+        if (e.target.id === 'modal') closeModal();
+    });
+
+    // Start
+    init();
+
+</script>
+</body>
+</html>
+
