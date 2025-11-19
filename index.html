@@ -426,10 +426,14 @@
                 profiles: ['Jess', 'Connor']
             },
             {
-                id: 'c2', cat: 'alcohol', title: 'Liquor Promotion & Menu',
-                evidence: 'data/Analyzed files/menu promotion of hard liqour based cocktails.jpg',
-                report: 'data/AR/Analysis of menu promotion of hard liqour based cocktails.jpg + hard liqour, cocktails spirits.jpg + social media post advertising wine products.jpg (2).txt',
-                type: 'image',
+                id: 'c2', cat: 'alcohol', title: 'Liquor Promotion & Menu (Unified Evidence)',
+                evidenceFiles: [
+                    'data/Unified analysis files/menu promotion of hard liqour based cocktails.jpg + hard liqour, cocktails spirits.jpg + social media post advertising wine products.jpg (2) (menu promotion of hard liqour based cocktails).jpg',
+                    'data/Unified analysis files/menu promotion of hard liqour based cocktails.jpg + hard liqour, cocktails spirits.jpg + social media post advertising wine products.jpg (2) (hard liqour, cocktails spirits).jpg',
+                    'data/Unified analysis files/menu promotion of hard liqour based cocktails.jpg + hard liqour, cocktails spirits.jpg + social media post advertising wine products.jpg (2) (social media post advertising wine products).jpg'
+                ],
+                report: 'data/Unified analysis reports/Analysis of menu promotion of hard liqour based cocktails.jpg + hard liqour, cocktails spirits.jpg + social media post advertising wine products.jpg (2).txt',
+                type: 'unified-images',
                 profiles: ['Tiffany Fixter']
             },
             // Sexual
@@ -441,10 +445,16 @@
                 profiles: ['Jose', 'Tiffany Fixter']
             },
             {
-                id: 'c4', cat: 'sexual', title: 'Girls Night Out Event',
-                evidence: 'data/Analyzed files/Girls night out.png',
-                report: 'data/AR/Analysis_Girls_night_out_combined_full.txt',
-                type: 'image',
+                id: 'c4', cat: 'sexual', title: 'Girls Night Out Event (Unified Evidence)',
+                evidenceFiles: [
+                    'data/Unified analysis files/Girls night out.png + jose dancing girls night out.mp4 + Surprise guest dancer girls night out.png + Jose Special Performance.png + pony little moses jones.mp4 (Girls night out).png',
+                    'data/Unified analysis files/Girls night out.png + jose dancing girls night out.mp4 + Surprise guest dancer girls night out.png + Jose Special Performance.png + pony little moses jones.mp4 (jose dancing girls night out).mp4',
+                    'data/Unified analysis files/Girls night out.png + jose dancing girls night out.mp4 + Surprise guest dancer girls night out.png + Jose Special Performance.png + pony little moses jones.mp4 (Surprise guest dancer girls night out).png',
+                    'data/Unified analysis files/Girls night out.png + jose dancing girls night out.mp4 + Surprise guest dancer girls night out.png + Jose Special Performance.png + pony little moses jones.mp4 (Jose Special Performance (2)).png',
+                    'data/Unified analysis files/Girls night out.png + jose dancing girls night out.mp4 + Surprise guest dancer girls night out.png + Jose Special Performance.png + pony little moses jones.mp4 (pony little moses jones (2)).mp4'
+                ],
+                report: 'data/Unified analysis reports/Analysis of Girls night out.png + jose dancing girls night out.mp4 + Surprise guest dancer girls night out.png + Jose Special Performance.png + pony little moses jones.mp4 + brewability promotes girls night out.png + Jose Special Performance.png (2).txt',
+                type: 'unified-mixed',
                 profiles: ['Jose']
             },
             // Exploitation
@@ -492,6 +502,26 @@
                 report: 'data/AR/Analysis of brewability political ideology promotion.png.txt',
                 type: 'image',
                 profiles: []
+            },
+            {
+                id: 'c11', cat: 'misrepresentation', title: 'Public Shaming of Disability Advocate (Unified Evidence)',
+                evidenceFiles: [
+                    'data/Unified analysis files/autism and beer dont mix - Copy.png + byron.png (autism and beer dont mix - Copy).png',
+                    'data/Unified analysis files/autism and beer dont mix - Copy.png + byron.png (byron).png'
+                ],
+                report: 'data/Unified analysis reports/Analysis of autism and beer dont mix - Copy.png + byron.png.txt',
+                type: 'unified-images',
+                profiles: ['Tiffany Fixter']
+            },
+            {
+                id: 'c12', cat: 'misrepresentation', title: 'Inappropriate Event Promotion (Unified Evidence)',
+                evidenceFiles: [
+                    'data/Unified analysis files/promotion of inappropriate holiday parties around adults with disabilities.png + ignores concerns.png + promotion of lgbtq propoganda.png + manipulating people into drag shows with charity fundraisers.png + popup queen.png (2) (ignores concerns).png',
+                    'data/Unified analysis files/promotion of inappropriate holiday parties around adults with disabilities.png + ignores concerns.png + promotion of lgbtq propoganda.png + manipulating people into drag shows with charity fundraisers.png + popup queen.png (2) (popup queen).png'
+                ],
+                report: 'data/Unified analysis reports/Analysis of promotion of inappropriate holiday parties around adults with disabilities.png + ignores concerns.png + promotion of lgbtq propoganda.png + manipulating people into drag shows with charity fundraisers.png + popup queen.png.txt',
+                type: 'unified-images',
+                profiles: ['Tiffany Fixter']
             }
         ],
         profiles: [
@@ -582,22 +612,36 @@
         div.onclick = () => openModal(c);
 
         let thumbContent = '';
-        const url = GITHUB_BASE + encodeURI(c.evidence);
+        let badgeLabel = c.type;
 
-        if (c.type === 'video') {
-            thumbContent = `<video src="${url}#t=1" muted preload="metadata"></video>`; // Show frame 1
+        // Handle unified evidence
+        if (c.evidenceFiles && c.evidenceFiles.length > 0) {
+            const firstFile = c.evidenceFiles[0];
+            const url = GITHUB_BASE + encodeURI(firstFile);
+            if (firstFile.toLowerCase().endsWith('.mp4')) {
+                thumbContent = `<video src="${url}#t=1" muted preload="metadata"></video>`;
+            } else {
+                thumbContent = `<img src="${url}" alt="${c.title}">`;
+            }
+            badgeLabel = `Unified (${c.evidenceFiles.length} files)`;
         } else {
-            thumbContent = `<img src="${url}" alt="${c.title}">`;
+            // Single file evidence
+            const url = GITHUB_BASE + encodeURI(c.evidence);
+            if (c.type === 'video') {
+                thumbContent = `<video src="${url}#t=1" muted preload="metadata"></video>`;
+            } else {
+                thumbContent = `<img src="${url}" alt="${c.title}">`;
+            }
         }
 
         div.innerHTML = `
             <div class="card-thumb">
                 ${thumbContent}
-                <div class="card-type-badge">${c.type}</div>
+                <div class="card-type-badge">${badgeLabel}</div>
             </div>
             <div class="card-body">
                 <div class="card-title">${c.title}</div>
-                <div class="card-meta">Unified Evidence File</div>
+                <div class="card-meta">Comprehensive Evidence Package</div>
                 <button class="btn-open">Open Case File</button>
             </div>
         `;
@@ -626,13 +670,42 @@
         modal.style.display = 'flex';
         document.getElementById('mTitle').innerText = c.title;
 
-        // Load Evidence
+        // Load Evidence (unified or single)
         const evContainer = document.getElementById('mEvidence');
-        const url = GITHUB_BASE + encodeURI(c.evidence);
-        if (c.type === 'video') {
-            evContainer.innerHTML = `<video src="${url}" controls style="width:100%; max-height:500px; background:black; border-radius:8px;"></video>`;
+        evContainer.innerHTML = '';
+
+        if (c.evidenceFiles && c.evidenceFiles.length > 0) {
+            // Unified evidence - show all files
+            evContainer.innerHTML = '<div style="display:flex; flex-direction:column; gap:20px;">';
+            c.evidenceFiles.forEach((file, idx) => {
+                const url = GITHUB_BASE + encodeURI(file);
+                const fileName = file.split('/').pop();
+
+                if (file.toLowerCase().endsWith('.mp4')) {
+                    evContainer.innerHTML += `
+                        <div>
+                            <div style="font-size:0.85rem; color:#64748b; margin-bottom:8px;">Evidence File ${idx + 1}/${c.evidenceFiles.length}: ${fileName}</div>
+                            <video src="${url}" controls style="width:100%; max-height:400px; background:black; border-radius:8px;"></video>
+                        </div>
+                    `;
+                } else {
+                    evContainer.innerHTML += `
+                        <div>
+                            <div style="font-size:0.85rem; color:#64748b; margin-bottom:8px;">Evidence File ${idx + 1}/${c.evidenceFiles.length}: ${fileName}</div>
+                            <img src="${url}" style="width:100%; max-height:400px; object-fit:contain; border-radius:8px; border:1px solid #e2e8f0;">
+                        </div>
+                    `;
+                }
+            });
+            evContainer.innerHTML += '</div>';
         } else {
-            evContainer.innerHTML = `<img src="${url}" style="width:100%; max-height:500px; object-fit:contain; border-radius:8px;">`;
+            // Single file evidence
+            const url = GITHUB_BASE + encodeURI(c.evidence);
+            if (c.type === 'video') {
+                evContainer.innerHTML = `<video src="${url}" controls style="width:100%; max-height:500px; background:black; border-radius:8px;"></video>`;
+            } else {
+                evContainer.innerHTML = `<img src="${url}" style="width:100%; max-height:500px; object-fit:contain; border-radius:8px;">`;
+            }
         }
 
         // Load Report
