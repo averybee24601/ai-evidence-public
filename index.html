@@ -199,6 +199,38 @@
 
         .btn-open:hover { background: var(--accent); }
 
+        .btn-download {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 100%;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .btn-download:hover { background: #059669; }
+
+        .btn-download-small {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        .btn-download-small:hover { background: #2563eb; }
+
         /* Modal Popup */
         .modal-overlay {
             position: fixed;
@@ -277,6 +309,8 @@
             border: 1px solid var(--border);
             padding: 20px;
             height: fit-content;
+            overflow-x: hidden;
+            min-width: 0;
         }
 
         .additional-files-panel {
@@ -484,6 +518,9 @@
             line-height: 1.6;
             color: #334155;
             font-size: 1rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: 100%;
         }
 
         .tag {
@@ -494,6 +531,89 @@
             background: #e2e8f0;
             color: #475569;
             margin-right: 4px;
+        }
+
+        /* Fullscreen Image Viewer */
+        .fullscreen-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            cursor: zoom-out;
+        }
+
+        .fullscreen-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .fullscreen-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.2s;
+            cursor: move;
+        }
+
+        .fullscreen-controls {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            background: rgba(30, 41, 59, 0.9);
+            padding: 12px 20px;
+            border-radius: 8px;
+            z-index: 2001;
+        }
+
+        .fullscreen-btn {
+            background: white;
+            color: var(--text-primary);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .fullscreen-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .fullscreen-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(30, 41, 59, 0.9);
+            color: white;
+            border: none;
+            font-size: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2001;
+            transition: background 0.2s;
+        }
+
+        .fullscreen-close:hover {
+            background: var(--accent);
         }
 
         /* Mobile responsiveness */
@@ -532,7 +652,11 @@
         <div class="modal-main">
             <div class="modal-header">
                 <div class="modal-title" id="mTitle">Case Title</div>
-                <button class="btn-close" onclick="closeModal()">×</button>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button class="btn-download-small" id="downloadCurrentBtn" style="margin-top: 0;">⬇ Download Current File</button>
+                    <button class="btn-download-small" id="downloadAllModalBtn" style="margin-top: 0;">⬇ Download All</button>
+                    <button class="btn-close" onclick="closeModal()">×</button>
+                </div>
             </div>
             <div class="modal-content-area">
                 <div class="evidence-viewer" id="mEvidence">
@@ -541,6 +665,7 @@
                 <div class="analysis-panel">
                     <span class="section-label">Analysis Report</span>
                     <div class="report-text" id="mReport">Loading analysis...</div>
+                    <button class="btn-download-small" id="downloadReportBtn" style="width:100%; margin-top:15px;">⬇ Download Report (TXT)</button>
                 </div>
             </div>
         </div>
@@ -561,6 +686,19 @@
                 <span class="section-label">Related Testimonies</span>
                 <div id="mTestimonies"></div>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Fullscreen Image Viewer -->
+<div class="fullscreen-overlay" id="fullscreenViewer">
+    <button class="fullscreen-close" onclick="closeFullscreen()">×</button>
+    <div class="fullscreen-content" id="fullscreenContent">
+        <img id="fullscreenImage" class="fullscreen-image" src="" alt="Fullscreen view">
+        <div class="fullscreen-controls">
+            <button class="fullscreen-btn" onclick="zoomIn()">Zoom In (+)</button>
+            <button class="fullscreen-btn" onclick="zoomOut()">Zoom Out (-)</button>
+            <button class="fullscreen-btn" onclick="resetZoom()">Reset</button>
         </div>
     </div>
 </div>
@@ -829,6 +967,17 @@
                 <button class="btn-open">Open Case File</button>
             </div>
         `;
+
+        // Add download button
+        const downloadBtn = document.createElement('button');
+        downloadBtn.className = 'btn-download';
+        downloadBtn.innerHTML = '⬇ Download All Files';
+        downloadBtn.onclick = (e) => {
+            e.stopPropagation();
+            downloadUnifiedReport(c);
+        };
+        div.querySelector('.card-body').appendChild(downloadBtn);
+
         return div;
     }
 
@@ -857,7 +1006,7 @@
 
         div.innerHTML = `
             <div class="profile-header">
-                <img src="${imgUrl}" alt="${profile.name}" class="profile-thumbnail">
+                <img src="${imgUrl}" alt="${profile.name}" class="profile-thumbnail profile-img-clickable" style="cursor:pointer;" title="Click to view fullscreen" data-img-url="${imgUrl}">
                 <div class="profile-header-info">
                     <div class="profile-name">${profile.name}</div>
                     <div class="profile-quick-desc">${profile.description || 'Click to view details'}</div>
@@ -865,7 +1014,7 @@
                 <span class="profile-expand-icon">▼</span>
             </div>
             <div class="profile-details">
-                <img src="${imgUrl}" alt="${profile.name}" class="profile-full-image">
+                <img src="${imgUrl}" alt="${profile.name}" class="profile-full-image profile-img-clickable" style="cursor:pointer;" title="Click to view fullscreen" data-img-url="${imgUrl}">
 
                 <div class="profile-section">
                     <div class="profile-section-title">User Provided Details</div>
@@ -900,7 +1049,12 @@
         const details = div.querySelector('.profile-details');
         const icon = div.querySelector('.profile-expand-icon');
 
-        header.addEventListener('click', () => {
+        header.addEventListener('click', (e) => {
+            // Don't expand if clicking on the thumbnail image
+            if (e.target.classList.contains('profile-img-clickable')) {
+                return;
+            }
+
             const isExpanded = details.classList.contains('expanded');
             // Close all other profiles
             document.querySelectorAll('.profile-details').forEach(d => d.classList.remove('expanded'));
@@ -910,6 +1064,14 @@
                 details.classList.add('expanded');
                 icon.classList.add('expanded');
             }
+        });
+
+        // Add click handlers for images
+        div.querySelectorAll('.profile-img-clickable').forEach(img => {
+            img.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openFullscreen(img.getAttribute('data-img-url'));
+            });
         });
 
         return div;
@@ -948,6 +1110,34 @@
         currentCase = c;
         currentFileIndex = 0;
 
+        // Setup download buttons
+        const downloadCurrentBtn = document.getElementById('downloadCurrentBtn');
+        const downloadAllBtn = document.getElementById('downloadAllModalBtn');
+
+        downloadCurrentBtn.onclick = () => {
+            let fileToDownload;
+            if (c.evidenceFiles && c.evidenceFiles.length > 0) {
+                fileToDownload = c.evidenceFiles[currentFileIndex];
+            } else {
+                fileToDownload = c.evidence;
+            }
+            const url = GITHUB_BASE + encodeURI(fileToDownload);
+            const filename = fileToDownload.split('/').pop();
+            downloadFile(url, filename);
+        };
+
+        downloadAllBtn.onclick = () => {
+            downloadUnifiedReport(c);
+        };
+
+        // Setup download report button
+        const downloadReportBtn = document.getElementById('downloadReportBtn');
+        downloadReportBtn.onclick = () => {
+            const reportUrl = GITHUB_BASE + encodeURI(c.report);
+            const reportFilename = c.report.split('/').pop();
+            downloadFile(reportUrl, reportFilename);
+        };
+
         // Load Evidence (unified or single)
         const evContainer = document.getElementById('mEvidence');
         const additionalFilesSection = document.getElementById('mAdditionalFiles');
@@ -965,21 +1155,35 @@
                 c.evidenceFiles.forEach((file, idx) => {
                     const url = GITHUB_BASE + encodeURI(file);
                     const isVideo = file.toLowerCase().endsWith('.mp4');
+                    const filename = file.split('/').pop();
 
                     const thumbDiv = document.createElement('div');
-                    thumbDiv.style.marginBottom = '10px';
+                    thumbDiv.style.marginBottom = '15px';
 
                     if (isVideo) {
                         thumbDiv.innerHTML = `
-                            <div style="font-size:0.75rem; color:#64748b; margin-bottom:4px;">File ${idx + 1}</div>
-                            <video class="file-thumbnail ${idx === 0 ? 'active' : ''}" src="${url}#t=1" muted preload="metadata" data-index="${idx}"></video>
+                            <div style="font-size:0.75rem; color:#64748b; margin-bottom:4px; display:flex; justify-content:space-between; align-items:center;">
+                                <span>File ${idx + 1}</span>
+                                <button class="thumb-download-btn" style="background:none; border:none; color:#3b82f6; cursor:pointer; font-size:0.75rem; padding:2px 6px;" title="Download this file">⬇</button>
+                            </div>
+                            <video class="file-thumbnail ${idx === 0 ? 'active' : ''}" src="${url}#t=1" muted preload="metadata" data-index="${idx}" title="Click to switch to this file"></video>
                         `;
                     } else {
                         thumbDiv.innerHTML = `
-                            <div style="font-size:0.75rem; color:#64748b; margin-bottom:4px;">File ${idx + 1}</div>
-                            <img class="file-thumbnail ${idx === 0 ? 'active' : ''}" src="${url}" data-index="${idx}">
+                            <div style="font-size:0.75rem; color:#64748b; margin-bottom:4px; display:flex; justify-content:space-between; align-items:center;">
+                                <span>File ${idx + 1}</span>
+                                <button class="thumb-download-btn" style="background:none; border:none; color:#3b82f6; cursor:pointer; font-size:0.75rem; padding:2px 6px;" title="Download this file">⬇</button>
+                            </div>
+                            <img class="file-thumbnail ${idx === 0 ? 'active' : ''}" src="${url}" data-index="${idx}" title="Click to switch to this file">
                         `;
                     }
+
+                    // Add download handler
+                    const downloadBtn = thumbDiv.querySelector('.thumb-download-btn');
+                    downloadBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        downloadFile(url, filename);
+                    });
 
                     thumbDiv.querySelector('.file-thumbnail').addEventListener('click', () => {
                         currentFileIndex = idx;
@@ -1001,7 +1205,14 @@
             if (c.type === 'video') {
                 evContainer.innerHTML = `<video src="${url}" controls style="width:100%; max-height:500px; background:black; border-radius:8px;"></video>`;
             } else {
-                evContainer.innerHTML = `<img src="${url}" style="width:100%; max-height:500px; object-fit:contain; border-radius:8px;">`;
+                evContainer.innerHTML = `<img id="currentEvidenceImage" src="${url}" style="width:100%; max-height:500px; object-fit:contain; border-radius:8px; cursor:pointer;" title="Click to view fullscreen">`;
+                // Add click handler after setting innerHTML
+                setTimeout(() => {
+                    const img = document.getElementById('currentEvidenceImage');
+                    if (img) {
+                        img.onclick = () => openFullscreen(url);
+                    }
+                }, 0);
             }
         }
 
@@ -1022,9 +1233,16 @@
             evContainer.innerHTML = `
                 <div>
                     <div style="font-size:0.85rem; color:#64748b; margin-bottom:8px;">Evidence File ${index + 1}/${total}: ${fileName}</div>
-                    <img src="${url}" style="width:100%; max-height:500px; object-fit:contain; border-radius:8px; border:1px solid #e2e8f0;">
+                    <img id="currentEvidenceImage" src="${url}" style="width:100%; max-height:500px; object-fit:contain; border-radius:8px; border:1px solid #e2e8f0; cursor:pointer;" title="Click to view fullscreen">
                 </div>
             `;
+            // Add click handler after setting innerHTML
+            setTimeout(() => {
+                const img = document.getElementById('currentEvidenceImage');
+                if (img) {
+                    img.onclick = () => openFullscreen(url);
+                }
+            }, 0);
         }
     }
 
@@ -1050,19 +1268,27 @@
             await loadProfiles();
         }
 
+        profContainer.innerHTML = ''; // Clear first
         c.profiles.forEach(pName => {
             const p = data.profiles.find(x => x.name === pName);
             if (p) {
                 const pUrl = GITHUB_BASE + encodeURI(p.img);
-                profContainer.innerHTML += `
-                    <div class="profile-chip">
-                        <img src="${pUrl}">
-                        <div>
-                            <div style="font-weight:600; font-size:0.9rem;">${p.name}</div>
-                            <div style="font-size:0.75rem; color:#64748b;">${p.description ? p.description.substring(0, 40) + '...' : 'Profile'}</div>
-                        </div>
+                const chipDiv = document.createElement('div');
+                chipDiv.className = 'profile-chip';
+                chipDiv.innerHTML = `
+                    <img src="${pUrl}" class="modal-profile-img" style="cursor:pointer;" title="Click to view fullscreen" data-img-url="${pUrl}">
+                    <div>
+                        <div style="font-weight:600; font-size:0.9rem;">${p.name}</div>
+                        <div style="font-size:0.75rem; color:#64748b;">${p.description ? p.description.substring(0, 40) + '...' : 'Profile'}</div>
                     </div>
                 `;
+                profContainer.appendChild(chipDiv);
+
+                // Add click handler
+                const img = chipDiv.querySelector('.modal-profile-img');
+                img.addEventListener('click', () => {
+                    openFullscreen(img.getAttribute('data-img-url'));
+                });
             }
         });
 
@@ -1093,6 +1319,186 @@
     });
 
     init();
+
+    // Download functionality
+    async function downloadFile(url, filename) {
+        try {
+            const response = await fetch(url);
+            const blob = await response.blob();
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
+        } catch (error) {
+            console.error('Download failed:', error);
+            alert('Download failed. Please try again.');
+        }
+    }
+
+    async function downloadUnifiedReport(caseData) {
+        const JSZip = await loadJSZip();
+        if (!JSZip) {
+            alert('Unable to load ZIP library. Please check your internet connection.');
+            return;
+        }
+
+        const zip = new JSZip();
+        const folderName = caseData.title.replace(/[^a-z0-9]/gi, '_');
+
+        try {
+            // Add all evidence files
+            if (caseData.evidenceFiles && caseData.evidenceFiles.length > 0) {
+                for (let i = 0; i < caseData.evidenceFiles.length; i++) {
+                    const filePath = caseData.evidenceFiles[i];
+                    const url = GITHUB_BASE + encodeURI(filePath);
+                    const filename = filePath.split('/').pop();
+
+                    const response = await fetch(url);
+                    const blob = await response.blob();
+                    zip.file(`${folderName}/evidence/${filename}`, blob);
+                }
+            } else if (caseData.evidence) {
+                // Single file case
+                const url = GITHUB_BASE + encodeURI(caseData.evidence);
+                const filename = caseData.evidence.split('/').pop();
+
+                const response = await fetch(url);
+                const blob = await response.blob();
+                zip.file(`${folderName}/evidence/${filename}`, blob);
+            }
+
+            // Add analysis report
+            if (caseData.report) {
+                const reportUrl = GITHUB_BASE + encodeURI(caseData.report);
+                const reportFilename = caseData.report.split('/').pop();
+
+                const response = await fetch(reportUrl);
+                const text = await response.text();
+                zip.file(`${folderName}/${reportFilename}`, text);
+            }
+
+            // Generate ZIP file
+            const content = await zip.generateAsync({ type: 'blob' });
+
+            // Download ZIP
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(content);
+            link.download = `${folderName}.zip`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
+
+        } catch (error) {
+            console.error('Download failed:', error);
+            alert('Download failed. Please try again.');
+        }
+    }
+
+    // Load JSZip library dynamically
+    async function loadJSZip() {
+        if (window.JSZip) return window.JSZip;
+
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+            script.onload = () => resolve(window.JSZip);
+            script.onerror = () => resolve(null);
+            document.head.appendChild(script);
+        });
+    }
+
+    // Fullscreen image viewer functionality
+    let currentZoom = 1;
+    let isDragging = false;
+    let dragStart = { x: 0, y: 0 };
+    let imagePosition = { x: 0, y: 0 };
+
+    function openFullscreen(imageSrc) {
+        const viewer = document.getElementById('fullscreenViewer');
+        const image = document.getElementById('fullscreenImage');
+
+        image.src = imageSrc;
+        viewer.style.display = 'flex';
+        currentZoom = 1;
+        imagePosition = { x: 0, y: 0 };
+        image.style.transform = 'translate(0, 0) scale(1)';
+
+        // Add drag functionality
+        image.onmousedown = startDrag;
+        document.onmousemove = drag;
+        document.onmouseup = stopDrag;
+    }
+
+    function closeFullscreen() {
+        const viewer = document.getElementById('fullscreenViewer');
+        viewer.style.display = 'none';
+        isDragging = false;
+    }
+
+    function zoomIn() {
+        currentZoom = Math.min(currentZoom + 0.25, 5);
+        updateImageTransform();
+    }
+
+    function zoomOut() {
+        currentZoom = Math.max(currentZoom - 0.25, 0.5);
+        updateImageTransform();
+    }
+
+    function resetZoom() {
+        currentZoom = 1;
+        imagePosition = { x: 0, y: 0 };
+        updateImageTransform();
+    }
+
+    function updateImageTransform() {
+        const image = document.getElementById('fullscreenImage');
+        image.style.transform = `translate(${imagePosition.x}px, ${imagePosition.y}px) scale(${currentZoom})`;
+    }
+
+    function startDrag(e) {
+        if (currentZoom > 1) {
+            isDragging = true;
+            dragStart = { x: e.clientX - imagePosition.x, y: e.clientY - imagePosition.y };
+            e.preventDefault();
+        }
+    }
+
+    function drag(e) {
+        if (isDragging) {
+            imagePosition = {
+                x: e.clientX - dragStart.x,
+                y: e.clientY - dragStart.y
+            };
+            updateImageTransform();
+        }
+    }
+
+    function stopDrag() {
+        isDragging = false;
+    }
+
+    // Close fullscreen on background click
+    document.getElementById('fullscreenViewer').addEventListener('click', (e) => {
+        if (e.target.id === 'fullscreenViewer' || e.target.id === 'fullscreenContent') {
+            closeFullscreen();
+        }
+    });
+
+    // Keyboard shortcuts for fullscreen viewer
+    document.addEventListener('keydown', (e) => {
+        const viewer = document.getElementById('fullscreenViewer');
+        if (viewer.style.display === 'flex') {
+            if (e.key === 'Escape') closeFullscreen();
+            if (e.key === '+' || e.key === '=') zoomIn();
+            if (e.key === '-' || e.key === '_') zoomOut();
+            if (e.key === '0') resetZoom();
+        }
+    });
 
 </script>
 
