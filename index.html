@@ -30,7 +30,7 @@
 
         /* Sidebar */
         #sidebar {
-            width: 280px;
+            width: 300px;
             background-color: var(--sidebar-bg);
             color: var(--sidebar-text);
             display: flex;
@@ -265,6 +265,9 @@
         .evidence-viewer {
             flex: 2;
             min-width: 0; /* Prevent flex overflow */
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
         .analysis-panel {
@@ -274,6 +277,162 @@
             border: 1px solid var(--border);
             padding: 20px;
             height: fit-content;
+        }
+
+        .additional-files-panel {
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .file-thumbnail {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            margin-bottom: 10px;
+        }
+
+        .file-thumbnail:hover {
+            border-color: var(--accent);
+            transform: scale(1.02);
+        }
+
+        .file-thumbnail.active {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        .profile-item {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+
+        .profile-item:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .profile-header:hover {
+            background: #f8fafc;
+        }
+
+        .profile-thumbnail {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: contain;
+            object-position: center;
+            border: 2px solid var(--border);
+            flex-shrink: 0;
+            background: #f8fafc;
+        }
+
+        .profile-header-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .profile-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .profile-quick-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .profile-expand-icon {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+
+        .profile-expand-icon.expanded {
+            transform: rotate(180deg);
+        }
+
+        .profile-details {
+            display: none;
+            padding: 0 15px 15px 15px;
+            border-top: 1px solid var(--border);
+            animation: slideDown 0.2s ease-out;
+        }
+
+        .profile-details.expanded {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .profile-full-image {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 2px solid var(--border);
+            object-fit: contain;
+            object-position: center top;
+        }
+
+        .profile-section {
+            margin-bottom: 15px;
+        }
+
+        .profile-section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .profile-section-content {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            white-space: pre-wrap;
+        }
+
+        .profiles-loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
         }
 
         .section-label {
@@ -386,6 +545,10 @@
             </div>
         </div>
         <div class="modal-sidebar">
+            <div id="mAdditionalFiles" style="margin-bottom: 24px; display: none;">
+                <span class="section-label">Additional Evidence Files</span>
+                <div id="mAdditionalFilesContainer"></div>
+            </div>
             <div style="margin-bottom: 24px;">
                 <span class="section-label">Involved Profiles</span>
                 <div id="mProfiles"></div>
@@ -414,6 +577,7 @@
             { id: 'discrimination', label: 'Discrimination', desc: 'Retaliatory scheduling, hours reduction, and dismissive conduct.' },
             { id: 'unsafe', label: 'Unsafe Conditions', desc: 'Inaccessible environments and ignored safety concerns.' },
             { id: 'misrepresentation', label: 'Misrepresentation', desc: 'Deceptive marketing and political ideology promotion.' },
+            { id: 'profiles', label: 'Profiles', desc: 'All individuals documented in this evidence repository.' },
             { id: 'final', label: 'Global Reports', desc: 'Comprehensive final reports and official complaints.' }
         ],
         cases: [
@@ -516,6 +680,8 @@
             {
                 id: 'c12', cat: 'misrepresentation', title: 'Inappropriate Event Promotion (Unified Evidence)',
                 evidenceFiles: [
+                    'data/Unified analysis files/promotion of inappropriate holiday parties around adults with disabilities.png + ignores concerns.png + promotion of lgbtq propoganda.png + manipulating people into drag shows with charity fundraisers.png + popup queen.png (ignores concerns).png',
+                    'data/Unified analysis files/promotion of inappropriate holiday parties around adults with disabilities.png + ignores concerns.png + promotion of lgbtq propoganda.png + manipulating people into drag shows with charity fundraisers.png + popup queen.png (popup queen).png',
                     'data/Unified analysis files/promotion of inappropriate holiday parties around adults with disabilities.png + ignores concerns.png + promotion of lgbtq propoganda.png + manipulating people into drag shows with charity fundraisers.png + popup queen.png (2) (ignores concerns).png',
                     'data/Unified analysis files/promotion of inappropriate holiday parties around adults with disabilities.png + ignores concerns.png + promotion of lgbtq propoganda.png + manipulating people into drag shows with charity fundraisers.png + popup queen.png (2) (popup queen).png'
                 ],
@@ -524,14 +690,12 @@
                 profiles: ['Tiffany Fixter']
             }
         ],
-        profiles: [
-            { name: 'Tiffany Fixter', img: 'data/Profiles/Tiffany Fixter.reference.png', role: 'Owner' },
-            { name: 'Jess', img: 'data/Profiles/Jess.reference.png', role: 'Manager' },
-            { name: 'Jose', img: 'data/Profiles/Jose.reference.png', role: 'Staff' },
-            { name: 'Juliana', img: 'data/Profiles/Juliana.reference.png', role: 'Staff' },
-            { name: 'Connor', img: 'data/Profiles/Connor.reference.png', role: 'Staff' },
-            { name: 'Avery Becker', img: 'data/Profiles/Avery Becker.reference.png', role: 'Staff' }
+        profileNames: [
+            'Aaron', 'AJ Szabo', 'Alyse', 'Alyse Morgan', 'Avery Becker', 'Connor',
+            'Jacob', 'Jess', 'Jorge', 'Jose', 'Juliana',
+            'Morgan Forsyth', 'Tiffany Fixter'
         ],
+        profiles: [], // Will be loaded dynamically
         reports: [
             { title: 'Comprehensive Analysis', path: 'data/Final Reports/COMPREHENSIVE ANALYSIS - Brewability Workplace Misconduct and Exploitation.txt' },
             { title: 'Executive Summary', path: 'data/Final Reports/EXECUTIVE SUMMARY - Key Findings and Evidence.txt' },
@@ -562,7 +726,7 @@
         });
     }
 
-    function renderCategory(catId) {
+    async function renderCategory(catId) {
         // Update Nav
         document.querySelectorAll('.nav-category').forEach(el => el.classList.remove('active'));
         document.getElementById(`nav-${catId}`).classList.add('active');
@@ -571,7 +735,7 @@
         container.innerHTML = '';
 
         const cat = data.categories.find(c => c.id === catId);
-        
+
         // Header
         const header = document.createElement('div');
         header.innerHTML = `
@@ -580,13 +744,11 @@
         `;
         container.appendChild(header);
 
-        // Grid
-        const grid = document.createElement('div');
-        grid.className = 'grid';
-
         // Filter Cases
         if (catId === 'final') {
-            // Special render for Global Reports
+            // Grid for Global Reports
+            const grid = document.createElement('div');
+            grid.className = 'grid';
             data.reports.forEach(rep => {
                 const card = createDocCard(rep, 'Final Report');
                 grid.appendChild(card);
@@ -595,15 +757,37 @@
                 const card = createDocCard(test, 'Testimony');
                 grid.appendChild(card);
             });
+            container.appendChild(grid);
+        } else if (catId === 'profiles') {
+            // Special render for Profiles - column layout
+            const profilesContainer = document.createElement('div');
+            profilesContainer.style.maxWidth = '900px';
+
+            if (data.profiles.length === 0) {
+                profilesContainer.innerHTML = '<div class="profiles-loading">Loading profiles...</div>';
+                container.appendChild(profilesContainer);
+
+                // Load profiles
+                await loadProfiles();
+                profilesContainer.innerHTML = '';
+            }
+
+            data.profiles.forEach(profile => {
+                const card = createProfileCard(profile);
+                profilesContainer.appendChild(card);
+            });
+            container.appendChild(profilesContainer);
         } else {
+            // Grid for regular cases
+            const grid = document.createElement('div');
+            grid.className = 'grid';
             const cases = data.cases.filter(c => c.cat === catId);
             cases.forEach(c => {
                 const card = createCaseCard(c);
                 grid.appendChild(card);
             });
+            container.appendChild(grid);
         }
-
-        container.appendChild(grid);
     }
 
     function createCaseCard(c) {
@@ -652,7 +836,7 @@
         const div = document.createElement('div');
         div.className = 'case-card';
         div.onclick = () => window.open(GITHUB_BASE + encodeURI(doc.path), '_blank');
-        
+
         div.innerHTML = `
             <div class="card-body">
                 <div class="card-type-badge" style="position:static; margin-bottom:10px; display:inline-block; background:#3b82f6;">${type}</div>
@@ -664,42 +848,155 @@
         return div;
     }
 
+    function createProfileCard(profile) {
+        const div = document.createElement('div');
+        div.className = 'profile-item';
+
+        const imgUrl = GITHUB_BASE + encodeURI(profile.img);
+        const relatedCases = data.cases.filter(c => c.profiles && c.profiles.includes(profile.name));
+
+        div.innerHTML = `
+            <div class="profile-header">
+                <img src="${imgUrl}" alt="${profile.name}" class="profile-thumbnail">
+                <div class="profile-header-info">
+                    <div class="profile-name">${profile.name}</div>
+                    <div class="profile-quick-desc">${profile.description || 'Click to view details'}</div>
+                </div>
+                <span class="profile-expand-icon">▼</span>
+            </div>
+            <div class="profile-details">
+                <img src="${imgUrl}" alt="${profile.name}" class="profile-full-image">
+
+                <div class="profile-section">
+                    <div class="profile-section-title">User Provided Details</div>
+                    <div class="profile-section-content">${profile.description || 'No description available'}</div>
+                </div>
+
+                <div class="profile-section">
+                    <div class="profile-section-title">AI Enhanced Description</div>
+                    <div class="profile-section-content">${profile.aiEnhancedDetails || 'No AI-enhanced description available'}</div>
+                </div>
+
+                ${relatedCases.length > 0 ? `
+                <div class="profile-section">
+                    <div class="profile-section-title">Appears in ${relatedCases.length} Case(s)</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                        ${relatedCases.map(c => `<span class="tag">${c.title}</span>`).join('')}
+                    </div>
+                </div>
+                ` : ''}
+
+                ${profile.referenceUrl ? `
+                <div class="profile-section">
+                    <div class="profile-section-title">Reference URL</div>
+                    <a href="${profile.referenceUrl}" target="_blank" style="color: var(--accent); word-break: break-all;">${profile.referenceUrl}</a>
+                </div>
+                ` : ''}
+            </div>
+        `;
+
+        // Add click event for expansion
+        const header = div.querySelector('.profile-header');
+        const details = div.querySelector('.profile-details');
+        const icon = div.querySelector('.profile-expand-icon');
+
+        header.addEventListener('click', () => {
+            const isExpanded = details.classList.contains('expanded');
+            // Close all other profiles
+            document.querySelectorAll('.profile-details').forEach(d => d.classList.remove('expanded'));
+            document.querySelectorAll('.profile-expand-icon').forEach(i => i.classList.remove('expanded'));
+
+            if (!isExpanded) {
+                details.classList.add('expanded');
+                icon.classList.add('expanded');
+            }
+        });
+
+        return div;
+    }
+
+    // Load profiles from JSON files
+    async function loadProfiles() {
+        const profiles = [];
+        for (const name of data.profileNames) {
+            try {
+                const jsonUrl = GITHUB_BASE + encodeURI(`data/Profiles/${name}.profile.json`);
+                const res = await fetch(jsonUrl);
+                if (res.ok) {
+                    const profileData = await res.json();
+                    profiles.push({
+                        ...profileData,
+                        img: `data/Profiles/${name}.reference.png`
+                    });
+                }
+            } catch (e) {
+                console.error(`Failed to load profile: ${name}`, e);
+            }
+        }
+        data.profiles = profiles;
+        return profiles;
+    }
+
     // Modal Logic
+    let currentFileIndex = 0;
+    let currentCase = null;
+
     async function openModal(c) {
         const modal = document.getElementById('caseModal');
         modal.style.display = 'flex';
         document.getElementById('mTitle').innerText = c.title;
+        currentCase = c;
+        currentFileIndex = 0;
 
         // Load Evidence (unified or single)
         const evContainer = document.getElementById('mEvidence');
-        evContainer.innerHTML = '';
+        const additionalFilesSection = document.getElementById('mAdditionalFiles');
+        const additionalFilesContainer = document.getElementById('mAdditionalFilesContainer');
 
         if (c.evidenceFiles && c.evidenceFiles.length > 0) {
-            // Unified evidence - show all files
-            evContainer.innerHTML = '<div style="display:flex; flex-direction:column; gap:20px;">';
-            c.evidenceFiles.forEach((file, idx) => {
-                const url = GITHUB_BASE + encodeURI(file);
-                const fileName = file.split('/').pop();
+            // Show first file in main viewer
+            showFile(c.evidenceFiles[0], 0, c.evidenceFiles.length);
 
-                if (file.toLowerCase().endsWith('.mp4')) {
-                    evContainer.innerHTML += `
-                        <div>
-                            <div style="font-size:0.85rem; color:#64748b; margin-bottom:8px;">Evidence File ${idx + 1}/${c.evidenceFiles.length}: ${fileName}</div>
-                            <video src="${url}" controls style="width:100%; max-height:400px; background:black; border-radius:8px;"></video>
-                        </div>
-                    `;
-                } else {
-                    evContainer.innerHTML += `
-                        <div>
-                            <div style="font-size:0.85rem; color:#64748b; margin-bottom:8px;">Evidence File ${idx + 1}/${c.evidenceFiles.length}: ${fileName}</div>
-                            <img src="${url}" style="width:100%; max-height:400px; object-fit:contain; border-radius:8px; border:1px solid #e2e8f0;">
-                        </div>
-                    `;
-                }
-            });
-            evContainer.innerHTML += '</div>';
+            // Show additional files as thumbnails in sidebar if more than 1 file
+            if (c.evidenceFiles.length > 1) {
+                additionalFilesSection.style.display = 'block';
+                additionalFilesContainer.innerHTML = '';
+
+                c.evidenceFiles.forEach((file, idx) => {
+                    const url = GITHUB_BASE + encodeURI(file);
+                    const isVideo = file.toLowerCase().endsWith('.mp4');
+
+                    const thumbDiv = document.createElement('div');
+                    thumbDiv.style.marginBottom = '10px';
+
+                    if (isVideo) {
+                        thumbDiv.innerHTML = `
+                            <div style="font-size:0.75rem; color:#64748b; margin-bottom:4px;">File ${idx + 1}</div>
+                            <video class="file-thumbnail ${idx === 0 ? 'active' : ''}" src="${url}#t=1" muted preload="metadata" data-index="${idx}"></video>
+                        `;
+                    } else {
+                        thumbDiv.innerHTML = `
+                            <div style="font-size:0.75rem; color:#64748b; margin-bottom:4px;">File ${idx + 1}</div>
+                            <img class="file-thumbnail ${idx === 0 ? 'active' : ''}" src="${url}" data-index="${idx}">
+                        `;
+                    }
+
+                    thumbDiv.querySelector('.file-thumbnail').addEventListener('click', () => {
+                        currentFileIndex = idx;
+                        showFile(file, idx, c.evidenceFiles.length);
+                        // Update active state
+                        document.querySelectorAll('.file-thumbnail').forEach(t => t.classList.remove('active'));
+                        thumbDiv.querySelector('.file-thumbnail').classList.add('active');
+                    });
+
+                    additionalFilesContainer.appendChild(thumbDiv);
+                });
+            } else {
+                additionalFilesSection.style.display = 'none';
+            }
         } else {
             // Single file evidence
+            additionalFilesSection.style.display = 'none';
             const url = GITHUB_BASE + encodeURI(c.evidence);
             if (c.type === 'video') {
                 evContainer.innerHTML = `<video src="${url}" controls style="width:100%; max-height:500px; background:black; border-radius:8px;"></video>`;
@@ -707,6 +1004,29 @@
                 evContainer.innerHTML = `<img src="${url}" style="width:100%; max-height:500px; object-fit:contain; border-radius:8px;">`;
             }
         }
+
+    function showFile(file, index, total) {
+        const evContainer = document.getElementById('mEvidence');
+        const url = GITHUB_BASE + encodeURI(file);
+        const fileName = file.split('/').pop();
+        const isVideo = file.toLowerCase().endsWith('.mp4');
+
+        if (isVideo) {
+            evContainer.innerHTML = `
+                <div>
+                    <div style="font-size:0.85rem; color:#64748b; margin-bottom:8px;">Evidence File ${index + 1}/${total}: ${fileName}</div>
+                    <video src="${url}" controls style="width:100%; max-height:500px; background:black; border-radius:8px;"></video>
+                </div>
+            `;
+        } else {
+            evContainer.innerHTML = `
+                <div>
+                    <div style="font-size:0.85rem; color:#64748b; margin-bottom:8px;">Evidence File ${index + 1}/${total}: ${fileName}</div>
+                    <img src="${url}" style="width:100%; max-height:500px; object-fit:contain; border-radius:8px; border:1px solid #e2e8f0;">
+                </div>
+            `;
+        }
+    }
 
         // Load Report
         const repContainer = document.getElementById('mReport');
@@ -724,6 +1044,12 @@
         // Load Profiles
         const profContainer = document.getElementById('mProfiles');
         profContainer.innerHTML = '';
+
+        // Ensure profiles are loaded
+        if (data.profiles.length === 0) {
+            await loadProfiles();
+        }
+
         c.profiles.forEach(pName => {
             const p = data.profiles.find(x => x.name === pName);
             if (p) {
@@ -733,7 +1059,7 @@
                         <img src="${pUrl}">
                         <div>
                             <div style="font-weight:600; font-size:0.9rem;">${p.name}</div>
-                            <div style="font-size:0.75rem; color:#64748b;">${p.role}</div>
+                            <div style="font-size:0.75rem; color:#64748b;">${p.description ? p.description.substring(0, 40) + '...' : 'Profile'}</div>
                         </div>
                     </div>
                 `;
