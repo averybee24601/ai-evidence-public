@@ -1,9 +1,9 @@
 =====================================
 Type: User
-Saved At: 2025-11-07T05:59:34.363Z
+Saved At: 2025-11-19T16:16:54.594Z
 -------------------------------------
 AI Context Summary:
-The user describes a hostile and discriminatory work environment at Brewability, alleging religious targeting, retaliation after advocating for a caregiver, and exploitation of disabled employees by management, alongside various instances of misconduct.
+You are documenting a systemic pattern of religious discrimination, retaliation regarding your caregiver, and the serious financial and physical exploitation of vulnerable employees at Brewability.
 
 Full Testimony:
 Incident Notes – Brewability
@@ -175,6 +175,41 @@ am sharing these facts now, despite years of silence, because the situation has 
 
 Distribution and Encouragement of Marijuana Use Among Employees:
 In addition to routinely providing alcohol, Tiffany has also offered marijuana to employees—including adults with disabilities—while at work or during work-related activities. This not only violates workplace safety standards and legal regulations, but also further endangers vulnerable employees and reinforces a pattern of substance encouragement and disregard for their wellbeing.
+
+I also need to report ongoing wage exploitation occurring within Brewability. Managers are illegally tipping themselves out, and at times tipping out select employees in ways that violate tip law. This is not a misunderstanding or one-off mistake. It is consistent enough to form a pattern, and it directly harms employees with disabilities who rely on their wages as their sole source of income.
+
+These actions include:
+
+• Managers taking a portion of tip pools
+• Managers distributing tips to themselves
+• Managers choosing who receives tips
+• Managers withholding tips from some employees
+• Managers “adjusting” tip totals without transparency
+• Tipping behaviors that do not follow any legal or posted system
+• No reliable record-keeping or visibility into where the money goes
+
+This behavior is not permitted under Colorado wage law.
+Under Colorado Revised Statutes and Department of Labor standards:
+
+Managers, supervisors, and owners may NEVER take from a tip pool or receive tips from employees they supervise.
+
+Yet it is happening.
+
+For disabled employees, many of whom live paycheck to paycheck and do not understand wage law, this is a form of financial exploitation. They are being skimmed from without their knowledge, without the capacity to object, and without meaningful oversight. The individuals losing money cannot advocate for themselves, cannot track discrepancies, and often do not realize when they are being shorted.
+
+Because these employees depend almost entirely on their hourly income and their share of tips, the skimming has a devastating financial impact, and Brewability’s management knows this population is vulnerable, trusting, and unlikely to challenge illegal behavior.
+
+This constitutes:
+
+• Wage theft
+• Financial exploitation of vulnerable adults
+• Abuse of authority
+• Violation of Colorado tip laws
+• Unethical and predatory workplace conduct
+
+I believe this must be investigated alongside the other patterns of exploitation already reported.
+
+
 
 I am sharing these facts now, despite years of silence, because the situation has become intolerable and unsafe—not just for myself, but for my mother and all my coworkers with disabilities. For a long time, I convinced myself that the benefits of this employment opportunity outweighed the negatives. However, Tiffany’s recent attempt to ban a caregiver, combined with everything I have witnessed and learned, has made it clear that the negatives now overwhelmingly surpass any positives. This type of behavior creates an environment that is not only unsafe, but also mentally and emotionally damaging for vulnerable individuals. The abuse, manipulation, and long-term harm caused here cannot be justified or excused. My intent in coming forward is to ensure that the full truth is known and that real accountability and protection for vulnerable employees becomes possible.
 =====================================
