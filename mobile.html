@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Evidence Portal - Mobile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --bg: #0f172a;
+            --bg-card: #1e293b;
+            --text: #f1f5f9;
+            --text-dim: #94a3b8;
+            --border: #334155;
+            --accent: #10b981;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg-card);
+            border-bottom: 2px solid var(--primary);
+            padding: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 4px;
+        }
+
+        .header-subtitle {
+            color: var(--text-dim);
+            font-size: 0.875rem;
+        }
+
+        /* Category Pills */
+        .categories {
+            display: flex;
+            overflow-x: auto;
+            gap: 8px;
+            padding: 12px 16px;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-pill {
+            flex-shrink: 0;
+            padding: 10px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            color: var(--text-dim);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .category-pill.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Content */
+        .content {
+            padding: 16px;
+        }
+
+        .section-header {
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .section-desc {
+            color: var(--text-dim);
+            font-size: 0.875rem;
+        }
+
+        /* Evidence Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:active {
+            transform: scale(0.98);
+        }
+
+        .card-thumb {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .card-thumb img,
+        .card-thumb video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .unified-badge {
+            background: var(--accent);
+        }
+
+        .card-body {
+            padding: 16px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .card-meta {
+            color: var(--text-dim);
+            font-size: 0.875rem;
+            margin-bottom: 12px;
+        }
+
+        .card-profiles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .profile-tag {
+            background: var(--primary);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg);
+            z-index: 1000;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .modal.active {
+            display: block;
+        }
+
+        .modal-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            flex: 1;
+            margin-right: 12px;
+        }
+
+        .close-btn {
+            background: var(--border);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .modal-content {
+            padding: 16px;
+        }
+
+        .evidence-viewer {
+            background: #000;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .evidence-viewer img,
+        .evidence-viewer video {
+            width: 100%;
+            display: block;
+        }
+
+        .file-switcher {
+            display: flex;
+            gap: 8px;
+            margin: 16px 0;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .file-thumb {
+            flex-shrink: 0;
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .file-thumb.active {
+            border-color: var(--primary);
+        }
+
+        .file-thumb img,
+        .file-thumb video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .section-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 24px 0 12px;
+        }
+
+        .analysis-report {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            white-space: pre-wrap;
+            font-size: 0.875rem;
+            line-height: 1.8;
+            font-family: 'Courier New', monospace;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: background 0.2s;
+        }
+
+        .btn:active {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-dim);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Document Cards */
+        .doc-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+
+        .doc-card-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .doc-card-type {
+            color: var(--primary);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>📁 Evidence Portal</h1>
+        <div class="header-subtitle">Mobile View</div>
+    </div>
+
+    <div class="categories" id="categories"></div>
+
+    <div class="content" id="content">
+        <div class="loading">
+            <div class="spinner"></div>
+            <div>Loading...</div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-header">
+            <div class="modal-title" id="modalTitle">Evidence</div>
+            <button class="close-btn" onclick="closeModal()">×</button>
+        </div>
+        <div class="modal-content" id="modalContent"></div>
+    </div>
+
+    <script>
+        const GITHUB_BASE = 'https://raw.githubusercontent.com/averybee24601/ai-evidence-public/main/';
+
+        const data = {
+            categories: [
+                { id: 'alcohol', label: 'Alcohol', icon: '🍺' },
+                { id: 'sexual', label: 'Sexual', icon: '⚠️' },
+                { id: 'exploitation', label: 'Exploitation', icon: '🎥' },
+                { id: 'discrimination', label: 'Discrimination', icon: '⚖️' },
+                { id: 'unsafe', label: 'Unsafe', icon: '🚨' },
+                { id: 'misrepresentation', label: 'Misrepresentation', icon: '📢' },
+                { id: 'final', label: 'Reports', icon: '📄' }
+            ],
+            cases: [
+                {
+                    id: 'c1', cat: 'alcohol', title: 'Management Drinking on Duty',
+                    evidence: 'data/Analyzed files/trimmed-Management drinking (3).mp4',
+                    report: 'data/AR/Analysis of trimmed-Management drinking (3).mp4 (2).txt',
+                    type: 'video',
+                    profiles: ['Jess', 'Connor']
+                },
+                {
+                    id: 'c3', cat: 'sexual', title: 'Magic Mike Performance',
+                    evidence: 'data/Analyzed files/Magic mike Jose.mp4',
+                    report: 'data/AR/Analysis of Magic mike Jose.mp4.txt',
+                    type: 'video',
+                    profiles: ['Jose', 'Tiffany Fixter']
+                },
+                {
+                    id: 'c13', cat: 'sexual', title: 'Planned Performance for Minor',
+                    evidence: 'data/Analyzed files/IMG_5271.MOV',
+                    report: 'data/AR/Analysis of IMG_5271.MOV.txt',
+                    type: 'video',
+                    profiles: ['Tiffany Fixter', 'Avery Becker', 'Jose']
+                },
+                {
+                    id: 'c5', cat: 'exploitation', title: 'Unauthorized Youtube Footage',
+                    evidence: 'data/Analyzed files/video_unauthorized_youtube_footage.mp4',
+                    report: 'data/AR/Analysis of video_unauthorized_youtube_footage.mp4.txt',
+                    type: 'video',
+                    profiles: ['Tiffany Fixter']
+                },
+                {
+                    id: 'c6', cat: 'exploitation', title: 'Inappropriate Physical Contact',
+                    evidence: 'data/Analyzed files/photo_person_sitting_on_person_brewability_stage.png',
+                    report: 'data/AR/Analysis of photo_person_sitting_on_person_brewability_stage.png.txt',
+                    type: 'image',
+                    profiles: []
+                },
+                {
+                    id: 'c7', cat: 'discrimination', title: 'Retaliatory Hours Cut',
+                    evidence: 'data/Analyzed files/Retaliatory hours cut due to refusal to ban caregiver - Copy.jpg',
+                    report: 'data/AR/Analysis of Retaliatory hours cut due to refusal to ban caregiver - Copy.jpg.txt',
+                    type: 'image',
+                    profiles: ['Tiffany Fixter', 'Avery Becker']
+                },
+                {
+                    id: 'c8', cat: 'discrimination', title: 'Dismissive Text Messages (Complete Conversation)',
+                    evidenceFiles: [
+                        'data/Analyzed files/text.png',
+                        'data/Analyzed files/text 2 dismissive attitude - Copy.png'
+                    ],
+                    report: 'data/AR/Analysis of text 2 dismissive attitude - Copy.png.txt',
+                    type: 'unified-images',
+                    profiles: ['Tiffany Fixter', 'Avery Becker', 'Juliana']
+                },
+                {
+                    id: 'c14', cat: 'discrimination', title: 'Manager Confirms "Commendable" Conduct',
+                    evidence: 'data/Analyzed files/ManagerSayingactionsareComendable.mov',
+                    report: 'data/AR/Analysis of ManagerSayingactionsareComendable.mov.txt',
+                    type: 'video',
+                    profiles: ['Jess', 'Avery Becker', 'Tiffany Fixter']
+                },
+                {
+                    id: 'c9', cat: 'unsafe', title: 'Inaccessible Environment',
+                    evidence: 'data/Analyzed files/inaccessible work environment.jpg',
+                    report: 'data/AR/Analysis of inaccessible work environment.jpg.txt',
+                    type: 'image',
+                    profiles: ['Connor']
+                },
+                {
+                    id: 'c10', cat: 'misrepresentation', title: 'Political Ideology Promotion',
+                    evidence: 'data/Analyzed files/brewability political ideology promotion.png',
+                    report: 'data/AR/Analysis of brewability political ideology promotion.png.txt',
+                    type: 'image',
+                    profiles: []
+                }
+            ],
+            reports: [
+                { title: 'Comprehensive Analysis', path: 'data/Final Reports/COMPREHENSIVE ANALYSIS - Brewability Workplace Misconduct and Exploitation.txt' },
+                { title: 'Executive Summary', path: 'data/Final Reports/EXECUTIVE SUMMARY - Key Findings and Evidence.txt' },
+                { title: 'Timeline of Exploitation', path: 'data/Final Reports/TIMELINE - Chronological Pattern of Exploitation.txt' }
+            ]
+        };
+
+        let currentCategory = 'alcohol';
+        let currentCase = null;
+        let currentFileIndex = 0;
+
+        function init() {
+            renderCategories();
+            renderContent(currentCategory);
+        }
+
+        function renderCategories() {
+            const container = document.getElementById('categories');
+            container.innerHTML = data.categories.map(cat => `
+                <div class="category-pill ${cat.id === currentCategory ? 'active' : ''}" 
+                     onclick="changeCategory('${cat.id}')">
+                    ${cat.icon} ${cat.label}
+                </div>
+            `).join('');
+        }
+
+        function changeCategory(catId) {
+            currentCategory = catId;
+            renderCategories();
+            renderContent(catId);
+        }
+
+        function renderContent(catId) {
+            const container = document.getElementById('content');
+
+            if (catId === 'final') {
+                const html = `
+                    <div class="section-header">
+                        <div class="section-title">📄 Final Reports & Testimonies</div>
+                        <div class="section-desc">Comprehensive documentation</div>
+                    </div>
+                    ${data.reports.map(rep => `
+                        <div class="doc-card" onclick="openDocument('${rep.path}')">
+                            <div class="doc-card-type">Final Report</div>
+                            <div class="doc-card-title">${rep.title}</div>
+                        </div>
+                    `).join('')}
+                `;
+                container.innerHTML = html;
+                return;
+            }
+
+            const cat = data.categories.find(c => c.id === catId);
+            const cases = data.cases.filter(c => c.cat === catId);
+
+            if (cases.length === 0) {
+                container.innerHTML = `
+                    <div class="section-header">
+                        <div class="section-title">${cat.icon} ${cat.label}</div>
+                        <div class="section-desc">No evidence in this category</div>
+                    </div>
+                `;
+                return;
+            }
+
+            const html = `
+                <div class="section-header">
+                    <div class="section-title">${cat.icon} ${cat.label}</div>
+                    <div class="section-desc">${cases.length} evidence file(s)</div>
+                </div>
+                ${cases.map(c => createCaseCard(c)).join('')}
+            `;
+            container.innerHTML = html;
+        }
+
+        function createCaseCard(c) {
+            const isUnified = c.evidenceFiles && c.evidenceFiles.length > 0;
+            const thumbUrl = isUnified
+                ? GITHUB_BASE + encodeURI(c.evidenceFiles[0])
+                : GITHUB_BASE + encodeURI(c.evidence);
+
+            const badge = isUnified
+                ? `<span class="card-badge unified-badge">📁 ${c.evidenceFiles.length} files</span>`
+                : `<span class="card-badge">${c.type === 'video' ? '▶️ Video' : '🖼️ Image'}</span>`;
+
+            return `
+                <div class="card" onclick='openCase(${JSON.stringify(c).replace(/'/g, "&#39;")})'>
+                    <div class="card-thumb">
+                        ${c.type.includes('video') || c.type.includes('mixed')
+                    ? `<video src="${thumbUrl}#t=1" muted preload="metadata"></video>`
+                    : `<img src="${thumbUrl}" alt="${c.title}">`
+                }
+                        ${badge}
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title">${c.title}</div>
+                        <div class="card-meta">Tap to view evidence and analysis</div>
+                        ${c.profiles && c.profiles.length > 0 ? `
+                            <div class="card-profiles">
+                                ${c.profiles.map(p => `<span class="profile-tag">${p}</span>`).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        async function openCase(c) {
+            currentCase = c;
+            currentFileIndex = 0;
+            const modal = document.getElementById('modal');
+            const title = document.getElementById('modalTitle');
+            const content = document.getElementById('modalContent');
+
+            title.textContent = c.title;
+            modal.classList.add('active');
+
+            const isUnified = c.evidenceFiles && c.evidenceFiles.length > 0;
+            const files = isUnified ? c.evidenceFiles : [c.evidence];
+
+            let html = '';
+
+            // File switcher for unified evidence
+            if (isUnified && files.length > 1) {
+                html += `<div class="file-switcher">`;
+                files.forEach((file, idx) => {
+                    const url = GITHUB_BASE + encodeURI(file);
+                    const isVideo = file.toLowerCase().match(/\.(mp4|mov)$/);
+                    html += `
+                        <div class="file-thumb ${idx === 0 ? 'active' : ''}" onclick="switchFile(${idx})">
+                            ${isVideo
+                            ? `<video src="${url}#t=1" muted preload="metadata"></video>`
+                            : `<img src="${url}">`
+                        }
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            }
+
+            // Main evidence viewer
+            html += `<div class="evidence-viewer" id="evidenceViewer"></div>`;
+
+            // Analysis report
+            html += `
+                <span class="section-label">📊 Analysis Report</span>
+                <div class="analysis-report" id="analysisReport">Loading analysis...</div>
+            `;
+
+            // Download button
+            html += `<button class="btn" onclick="downloadEvidence()">⬇️ Download Evidence</button>`;
+
+            content.innerHTML = html;
+
+            // Show first file
+            showFile(files[0]);
+
+            // Load report
+            loadReport(c.report);
+        }
+
+        function showFile(filePath) {
+            const viewer = document.getElementById('evidenceViewer');
+            const url = GITHUB_BASE + encodeURI(filePath);
+            const isVideo = filePath.toLowerCase().match(/\.(mp4|mov)$/);
+
+            viewer.innerHTML = isVideo
+                ? `<video src="${url}" controls playsinline style="width:100%"></video>`
+                : `<img src="${url}" style="width:100%">`;
+        }
+
+        function switchFile(index) {
+            currentFileIndex = index;
+            const files = currentCase.evidenceFiles || [currentCase.evidence];
+
+            // Update active thumb
+            document.querySelectorAll('.file-thumb').forEach((thumb, idx) => {
+                thumb.classList.toggle('active', idx === index);
+            });
+
+            showFile(files[index]);
+        }
+
+        async function loadReport(reportPath) {
+            const reportDiv = document.getElementById('analysisReport');
+            try {
+                const url = GITHUB_BASE + encodeURI(reportPath);
+                const res = await fetch(url);
+                if (!res.ok) throw new Error('Failed to load');
+                const text = await res.text();
+                reportDiv.textContent = text;
+            } catch (e) {
+                reportDiv.textContent = 'Error loading analysis report.';
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        function openDocument(path) {
+            window.open(GITHUB_BASE + encodeURI(path), '_blank');
+        }
+
+        function downloadEvidence() {
+            const files = currentCase.evidenceFiles || [currentCase.evidence];
+            const currentFile = files[currentFileIndex];
+            const url = GITHUB_BASE + encodeURI(currentFile);
+            const filename = currentFile.split('/').pop();
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+        }
+
+        // Initialize on load
+        init();
+    </script>
+</body>
+
+</html>
