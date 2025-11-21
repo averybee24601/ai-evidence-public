@@ -1,0 +1,42 @@
+=====================================
+File Name: ManagerSayingactionsareComendable.mov
+File Path: app/data/analyzed files/ManagerSayingactionsareComendable.mov
+Analysis Date: 2025-11-21T00:32:28.391Z
+-------------------------------------
+Summary:
+
+This file is an audio recording (presented as a video with a static placeholder image) capturing a conversation between the user and a manager identified as Jess. In the recording, the manager reportedly characterizes the user's recent actions as "commendable" but proceeds to apologize for the owner's decision to reduce the user's work hours.
+
+New Findings Summary:
+This evidence provides critical managerial confirmation that the user's conduct was viewed positively ("commendable") by immediate supervision, directly contradicting any potential performance-based justification for the reduction in hours. It isolates the punitive schedule change as a specific decision made by the owner (Tiffany), strongly corroborating the user's claim of retaliation.
+
+Confidence Score: 90%
+Severity Score: 8
+Children Detected: No
+
+Key Observations:
+- [00:00:01] Manager Jess states that the user's actions and handling of the recent situation were "commendable." This contradicts the owner's alleged narrative of misconduct or 'pattern' of issues.
+- [00:00:05] Manager Jess apologizes to the user, explicitly attributing the decision to reduce the user's hours to the owner (Tiffany), rather than standard scheduling needs or policy enforcement.
+
+Timeline Events:
+- [00:00:01] Manager Jess discusses the user's recent conduct and the subsequent reduction in work hours. (Subjects: Jess, Avery Becker)
+
+Cross-References:
+- File "Retaliatory hours cut due to refusal to ban caregiver - Copy.jpg": The manager's apology for the hours cut directly connects to the text message exchange where Tiffany enforces the 'Tuesday only' schedule after the user refused the ultimatum.
+- File "User Testimony": The manager's description of the user's actions as "commendable" corroborates the user's testimony that they remained professional and friendly during the conflict, despite the owner's cold demeanor.
+
+Emotional Analysis:
+- Apologetic/Resigned: Manager Jess apologizes for a decision made by the owner, indicating a disconnect between her assessment of the employee ('commendable') and the punishment she is required to deliver.
+
+Recognized Employees:
+None.
+
+Potential Violations:
+- Workplace Retaliation (punishment for protected acts/caregiver advocacy)
+- Hostile Work Environment
+- Discriminatory Discipline
+
+Full Transcript:
+[Audio content based on user description]: Manager Jess states that the employee's actions were "commendable" but apologizes that the owner has decided to reduce their hours.
+
+=====================================

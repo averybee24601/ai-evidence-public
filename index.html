@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +17,9 @@
             --border: #e2e8f0;
         }
 
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
         body {
             margin: 0;
@@ -89,8 +92,15 @@
             align-items: center;
         }
 
-        .header h1 { margin: 0; font-size: 1.5rem; }
-        .header-meta { font-size: 0.875rem; color: var(--text-secondary); }
+        .header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .header-meta {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
 
         .content-scroll {
             padding: 40px;
@@ -144,7 +154,8 @@
             position: relative;
         }
 
-        .card-thumb img, .card-thumb video {
+        .card-thumb img,
+        .card-thumb video {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -154,7 +165,7 @@
             position: absolute;
             top: 12px;
             right: 12px;
-            background: rgba(0,0,0,0.75);
+            background: rgba(0, 0, 0, 0.75);
             color: white;
             padding: 4px 8px;
             border-radius: 4px;
@@ -197,7 +208,9 @@
             text-align: center;
         }
 
-        .btn-open:hover { background: var(--accent); }
+        .btn-open:hover {
+            background: var(--accent);
+        }
 
         .btn-download {
             background: #10b981;
@@ -213,7 +226,9 @@
             margin-top: 8px;
         }
 
-        .btn-download:hover { background: #059669; }
+        .btn-download:hover {
+            background: #059669;
+        }
 
         .btn-download-small {
             background: var(--accent);
@@ -229,12 +244,17 @@
             display: inline-block;
         }
 
-        .btn-download-small:hover { background: #2563eb; }
+        .btn-download-small:hover {
+            background: #2563eb;
+        }
 
         /* Modal Popup */
         .modal-overlay {
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background: rgba(15, 23, 42, 0.8);
             backdrop-filter: blur(4px);
             display: none;
@@ -280,10 +300,17 @@
             align-items: center;
         }
 
-        .modal-title { font-size: 1.5rem; font-weight: 700; }
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
 
         .btn-close {
-            background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-secondary);
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
         }
 
         .modal-content-area {
@@ -296,7 +323,8 @@
 
         .evidence-viewer {
             flex: 2;
-            min-width: 0; /* Prevent flex overflow */
+            min-width: 0;
+            /* Prevent flex overflow */
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -352,7 +380,7 @@
         }
 
         .profile-item:hover {
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .profile-header {
@@ -426,6 +454,7 @@
                 opacity: 0;
                 transform: translateY(-10px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -510,7 +539,10 @@
             transition: all 0.2s;
         }
 
-        .doc-link:hover { border-color: var(--accent); background: #eff6ff; }
+        .doc-link:hover {
+            border-color: var(--accent);
+            background: #eff6ff;
+        }
 
         .report-text {
             white-space: pre-wrap;
@@ -536,7 +568,10 @@
         /* Fullscreen Image Viewer */
         .fullscreen-overlay {
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background: rgba(0, 0, 0, 0.95);
             display: none;
             justify-content: center;
@@ -618,348 +653,382 @@
 
         /* Mobile responsiveness */
         @media (max-width: 1024px) {
-            .modal-content-area { flex-direction: column; }
-            .modal-window { flex-direction: column; }
-            .modal-sidebar { width: 100%; height: 200px; order: 2; }
-            .modal-main { order: 1; height: 60%; }
+            .modal-content-area {
+                flex-direction: column;
+            }
+
+            .modal-window {
+                flex-direction: column;
+            }
+
+            .modal-sidebar {
+                width: 100%;
+                height: 200px;
+                order: 2;
+            }
+
+            .modal-main {
+                order: 1;
+                height: 60%;
+            }
         }
     </style>
 </head>
+
 <body>
 
-<div id="sidebar">
-    <div class="sidebar-header">
-        Evidence Portal
+    <div id="sidebar">
+        <div class="sidebar-header">
+            Evidence Portal
+        </div>
+        <div class="nav-links" id="navLinks">
+            <!-- Injected via JS -->
+        </div>
     </div>
-    <div class="nav-links" id="navLinks">
-        <!-- Injected via JS -->
-    </div>
-</div>
 
-<div id="main">
-    <div class="header">
-        <h1>Case Files Dashboard</h1>
-        <div class="header-meta">Unified Evidence Repository</div>
+    <div id="main">
+        <div class="header">
+            <h1>Case Files Dashboard</h1>
+            <div class="header-meta">Unified Evidence Repository</div>
+        </div>
+        <div class="content-scroll" id="contentArea">
+            <!-- Injected via JS -->
+        </div>
     </div>
-    <div class="content-scroll" id="contentArea">
-        <!-- Injected via JS -->
-    </div>
-</div>
 
-<!-- Modal -->
-<div class="modal-overlay" id="caseModal">
-    <div class="modal-window">
-        <div class="modal-main">
-            <div class="modal-header">
-                <div class="modal-title" id="mTitle">Case Title</div>
-                <div style="display: flex; gap: 10px; align-items: center;">
-                    <button class="btn-download-small" id="downloadCurrentBtn" style="margin-top: 0;">⬇ Download Current File</button>
-                    <button class="btn-download-small" id="downloadAllModalBtn" style="margin-top: 0;">⬇ Download All</button>
-                    <button class="btn-close" onclick="closeModal()">×</button>
+    <!-- Modal -->
+    <div class="modal-overlay" id="caseModal">
+        <div class="modal-window">
+            <div class="modal-main">
+                <div class="modal-header">
+                    <div class="modal-title" id="mTitle">Case Title</div>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="btn-download-small" id="downloadCurrentBtn" style="margin-top: 0;">⬇ Download
+                            Current File</button>
+                        <button class="btn-download-small" id="downloadAllModalBtn" style="margin-top: 0;">⬇ Download
+                            All</button>
+                        <button class="btn-close" onclick="closeModal()">×</button>
+                    </div>
                 </div>
-            </div>
-            <div class="modal-content-area">
-                <div class="evidence-viewer" id="mEvidence">
-                    <!-- Video/Image goes here -->
-                </div>
-                <div class="analysis-panel">
-                    <span class="section-label">Analysis Report</span>
-                    <div class="report-text" id="mReport">Loading analysis...</div>
-                    <div style="display: flex; gap: 8px; margin-top: 15px;">
-                        <button class="btn-download-small" id="downloadReportBtn" style="width:50%; margin-top:0;">⬇ Download (TXT)</button>
-                        <button class="btn-download-small" id="printReportBtn" style="width:50%; margin-top:0; background:#8b5cf6;">🖨 Print as PDF</button>
+                <div class="modal-content-area">
+                    <div class="evidence-viewer" id="mEvidence">
+                        <!-- Video/Image goes here -->
+                    </div>
+                    <div class="analysis-panel">
+                        <span class="section-label">Analysis Report</span>
+                        <div class="report-text" id="mReport">Loading analysis...</div>
+                        <div style="display: flex; gap: 8px; margin-top: 15px;">
+                            <button class="btn-download-small" id="downloadReportBtn" style="width:50%; margin-top:0;">⬇
+                                Download (TXT)</button>
+                            <button class="btn-download-small" id="printReportBtn"
+                                style="width:50%; margin-top:0; background:#8b5cf6;">🖨 Print as PDF</button>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="modal-sidebar">
+                <div id="mAdditionalFiles" style="margin-bottom: 24px; display: none;">
+                    <span class="section-label">Additional Evidence Files</span>
+                    <div id="mAdditionalFilesContainer"></div>
+                </div>
+                <div style="margin-bottom: 24px;">
+                    <span class="section-label">Involved Profiles</span>
+                    <div id="mProfiles"></div>
+                </div>
+                <div style="margin-bottom: 24px;">
+                    <span class="section-label">Related Final Reports</span>
+                    <div id="mFinalReports"></div>
+                </div>
+                <div>
+                    <span class="section-label">Related Testimonies</span>
+                    <div id="mTestimonies"></div>
+                </div>
+            </div>
         </div>
-        <div class="modal-sidebar">
-            <div id="mAdditionalFiles" style="margin-bottom: 24px; display: none;">
-                <span class="section-label">Additional Evidence Files</span>
-                <div id="mAdditionalFilesContainer"></div>
-            </div>
-            <div style="margin-bottom: 24px;">
-                <span class="section-label">Involved Profiles</span>
-                <div id="mProfiles"></div>
-            </div>
-            <div style="margin-bottom: 24px;">
-                <span class="section-label">Related Final Reports</span>
-                <div id="mFinalReports"></div>
-            </div>
-            <div>
-                <span class="section-label">Related Testimonies</span>
-                <div id="mTestimonies"></div>
+    </div>
+
+    <!-- Fullscreen Image Viewer -->
+    <div class="fullscreen-overlay" id="fullscreenViewer">
+        <button class="fullscreen-close" onclick="closeFullscreen()">×</button>
+        <div class="fullscreen-content" id="fullscreenContent">
+            <img id="fullscreenImage" class="fullscreen-image" src="" alt="Fullscreen view">
+            <div class="fullscreen-controls">
+                <button class="fullscreen-btn" onclick="zoomIn()">Zoom In (+)</button>
+                <button class="fullscreen-btn" onclick="zoomOut()">Zoom Out (-)</button>
+                <button class="fullscreen-btn" onclick="resetZoom()">Reset</button>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Fullscreen Image Viewer -->
-<div class="fullscreen-overlay" id="fullscreenViewer">
-    <button class="fullscreen-close" onclick="closeFullscreen()">×</button>
-    <div class="fullscreen-content" id="fullscreenContent">
-        <img id="fullscreenImage" class="fullscreen-image" src="" alt="Fullscreen view">
-        <div class="fullscreen-controls">
-            <button class="fullscreen-btn" onclick="zoomIn()">Zoom In (+)</button>
-            <button class="fullscreen-btn" onclick="zoomOut()">Zoom Out (-)</button>
-            <button class="fullscreen-btn" onclick="resetZoom()">Reset</button>
-        </div>
-    </div>
-</div>
+    <script>
+        // const GITHUB_BASE = 'https://raw.githubusercontent.com/averybee24601/ai-evidence-public/main/';
+        const GITHUB_BASE = ''; // Use local paths for development/preview
 
-<script>
-    const GITHUB_BASE = 'https://raw.githubusercontent.com/averybee24601/ai-evidence-public/main/';
+        // Data Store
+        const data = {
+            categories: [
+                { id: 'alcohol', label: 'Alcohol Violations', desc: 'Documentation of management drinking on duty and promotion of hard liquor.' },
+                { id: 'sexual', label: 'Sexual Misconduct', desc: 'Evidence of sexualized performances and adult content.' },
+                { id: 'exploitation', label: 'Exploitation & Coercion', desc: 'Unauthorized recording and potential exploitation of vulnerable staff.' },
+                { id: 'discrimination', label: 'Discrimination', desc: 'Retaliatory scheduling, hours reduction, and dismissive conduct.' },
+                { id: 'unsafe', label: 'Unsafe Conditions', desc: 'Inaccessible environments and ignored safety concerns.' },
+                { id: 'misrepresentation', label: 'Misrepresentation', desc: 'Deceptive marketing and political ideology promotion.' },
+                { id: 'profiles', label: 'Profiles', desc: 'All individuals documented in this evidence repository.' },
+                { id: 'final', label: 'Global Reports', desc: 'Comprehensive final reports and official complaints.' }
+            ],
+            cases: [
+                // Alcohol
+                {
+                    id: 'c1', cat: 'alcohol', title: 'Management Drinking on Duty',
+                    evidence: 'data/Analyzed files/trimmed-Management drinking (3).mp4',
+                    report: 'data/AR/Analysis of trimmed-Management drinking (3).mp4 (2).txt',
+                    type: 'video',
+                    profiles: ['Jess', 'Connor']
+                },
+                {
+                    id: 'c2', cat: 'alcohol', title: 'Liquor Promotion & Menu (Unified Evidence)',
+                    evidenceFiles: [
+                        'data/Unified analysis files/menu promotion of hard liqour based cocktails.jpg + hard liqour, cocktails spirits.jpg + social media post advertising wine products.jpg (2) (menu promotion of hard liqour based cocktails).jpg',
+                        'data/Unified analysis files/menu promotion of hard liqour based cocktails.jpg + hard liqour, cocktails spirits.jpg + social media post advertising wine products.jpg (2) (hard liqour, cocktails spirits).jpg',
+                        'data/Unified analysis files/menu promotion of hard liqour based cocktails.jpg + hard liqour, cocktails spirits.jpg + social media post advertising wine products.jpg (2) (social media post advertising wine products).jpg'
+                    ],
+                    report: 'data/Unified analysis reports/Analysis of menu promotion of hard liqour based cocktails.jpg + hard liqour, cocktails spirits.jpg + social media post advertising wine products.jpg (2).txt',
+                    type: 'unified-images',
+                    profiles: ['Tiffany Fixter']
+                },
+                // Sexual
+                {
+                    id: 'c3', cat: 'sexual', title: 'Magic Mike Performance',
+                    evidence: 'data/Analyzed files/Magic mike Jose.mp4',
+                    report: 'data/AR/Analysis of Magic mike Jose.mp4.txt',
+                    type: 'video',
+                    profiles: ['Jose', 'Tiffany Fixter']
+                },
+                {
+                    id: 'c4', cat: 'sexual', title: 'Girls Night Out Event (Unified Evidence)',
+                    evidenceFiles: [
+                        'data/Unified analysis files/Girls night out.png + jose dancing girls night out.mp4 + Surprise guest dancer girls night out.png + Jose Special Performance.png + pony little moses jones.mp4 (Girls night out).png',
+                        'data/Unified analysis files/Girls night out.png + jose dancing girls night out.mp4 + Surprise guest dancer girls night out.png + Jose Special Performance.png + pony little moses jones.mp4 (jose dancing girls night out).mp4',
+                        'data/Unified analysis files/Girls night out.png + jose dancing girls night out.mp4 + Surprise guest dancer girls night out.png + Jose Special Performance.png + pony little moses jones.mp4 (Surprise guest dancer girls night out).png',
+                        'data/Unified analysis files/Girls night out.png + jose dancing girls night out.mp4 + Surprise guest dancer girls night out.png + Jose Special Performance.png + pony little moses jones.mp4 (Jose Special Performance (2)).png',
+                        'data/Unified analysis files/Girls night out.png + jose dancing girls night out.mp4 + Surprise guest dancer girls night out.png + Jose Special Performance.png + pony little moses jones.mp4 (pony little moses jones (2)).mp4'
+                    ],
+                    report: 'data/Unified analysis reports/Analysis of Girls night out.png + jose dancing girls night out.mp4 + Surprise guest dancer girls night out.png + Jose Special Performance.png + pony little moses jones.mp4 + brewability promotes girls night out.png + Jose Special Performance.png (2).txt',
+                    type: 'unified-mixed',
+                    profiles: ['Jose']
+                },
+                {
+                    id: 'c13', cat: 'sexual', title: 'Planned Performance for Minor',
+                    evidence: 'data/Analyzed files/IMG_5271.MOV',
+                    report: 'data/AR/Analysis of IMG_5271.MOV.txt',
+                    type: 'video',
+                    profiles: ['Tiffany Fixter', 'Avery Becker', 'Jose']
+                },
+                // Exploitation
+                {
+                    id: 'c5', cat: 'exploitation', title: 'Unauthorized Youtube Footage',
+                    evidence: 'data/Analyzed files/video_unauthorized_youtube_footage.mp4',
+                    report: 'data/AR/Analysis of video_unauthorized_youtube_footage.mp4.txt',
+                    type: 'video',
+                    profiles: ['Tiffany Fixter']
+                },
+                {
+                    id: 'c6', cat: 'exploitation', title: 'Inappropriate Physical Contact',
+                    evidence: 'data/Analyzed files/photo_person_sitting_on_person_brewability_stage.png',
+                    report: 'data/AR/Analysis of photo_person_sitting_on_person_brewability_stage.png.txt',
+                    type: 'image',
+                    profiles: []
+                },
+                // Discrimination
+                {
+                    id: 'c7', cat: 'discrimination', title: 'Retaliatory Hours Cut',
+                    evidence: 'data/Analyzed files/Retaliatory hours cut due to refusal to ban caregiver - Copy.jpg',
+                    report: 'data/AR/Analysis of Retaliatory hours cut due to refusal to ban caregiver - Copy.jpg.txt',
+                    type: 'image',
+                    profiles: ['Tiffany Fixter', 'Avery Becker']
+                },
+                {
+                    id: 'c8', cat: 'discrimination', title: 'Dismissive Text Messages',
+                    evidence: 'data/Analyzed files/text.png',
+                    report: 'data/AR/Analysis of text.png.txt',
+                    type: 'image',
+                    profiles: ['Tiffany Fixter', 'Juliana']
+                },
+                {
+                    id: 'c14', cat: 'discrimination', title: 'Manager Confirms "Commendable" Conduct',
+                    evidence: 'data/Analyzed files/ManagerSayingactionsareComendable.mov',
+                    report: 'data/AR/Analysis of ManagerSayingactionsareComendable.mov.txt',
+                    type: 'video',
+                    profiles: ['Jess', 'Avery Becker', 'Tiffany Fixter']
+                },
+                // Unsafe
+                {
+                    id: 'c9', cat: 'unsafe', title: 'Inaccessible Environment',
+                    evidence: 'data/Analyzed files/inaccessible work environment.jpg',
+                    report: 'data/AR/Analysis of inaccessible work environment.jpg.txt',
+                    type: 'image',
+                    profiles: ['Connor']
+                },
+                // Misrepresentation
+                {
+                    id: 'c10', cat: 'misrepresentation', title: 'Political Ideology Promotion',
+                    evidence: 'data/Analyzed files/brewability political ideology promotion.png',
+                    report: 'data/AR/Analysis of brewability political ideology promotion.png.txt',
+                    type: 'image',
+                    profiles: []
+                },
+                {
+                    id: 'c11', cat: 'misrepresentation', title: 'Public Shaming of Disability Advocate (Unified Evidence)',
+                    evidenceFiles: [
+                        'data/Unified analysis files/autism and beer dont mix - Copy.png + byron.png (autism and beer dont mix - Copy).png',
+                        'data/Unified analysis files/autism and beer dont mix - Copy.png + byron.png (byron).png'
+                    ],
+                    report: 'data/Unified analysis reports/Analysis of autism and beer dont mix - Copy.png + byron.png.txt',
+                    type: 'unified-images',
+                    profiles: ['Tiffany Fixter']
+                },
+                {
+                    id: 'c12', cat: 'misrepresentation', title: 'Inappropriate Event Promotion (Unified Evidence)',
+                    evidenceFiles: [
+                        'data/Unified analysis files/promotion of inappropriate holiday parties around adults with disabilities.png + ignores concerns.png + promotion of lgbtq propoganda.png + manipulating people into drag shows with charity fundraisers.png + popup queen.png (ignores concerns).png',
+                        'data/Unified analysis files/promotion of inappropriate holiday parties around adults with disabilities.png + ignores concerns.png + promotion of lgbtq propoganda.png + manipulating people into drag shows with charity fundraisers.png + popup queen.png (popup queen).png',
+                        'data/Unified analysis files/promotion of inappropriate holiday parties around adults with disabilities.png + ignores concerns.png + promotion of lgbtq propoganda.png + manipulating people into drag shows with charity fundraisers.png + popup queen.png (2) (ignores concerns).png',
+                        'data/Unified analysis files/promotion of inappropriate holiday parties around adults with disabilities.png + ignores concerns.png + promotion of lgbtq propoganda.png + manipulating people into drag shows with charity fundraisers.png + popup queen.png (2) (popup queen).png'
+                    ],
+                    report: 'data/Unified analysis reports/Analysis of promotion of inappropriate holiday parties around adults with disabilities.png + ignores concerns.png + promotion of lgbtq propoganda.png + manipulating people into drag shows with charity fundraisers.png + popup queen.png.txt',
+                    type: 'unified-images',
+                    profiles: ['Tiffany Fixter']
+                }
+            ],
+            profileNames: [
+                'Aaron', 'AJ Szabo', 'Alyse', 'Alyse Morgan', 'Avery Becker', 'Connor',
+                'Jacob', 'Jess', 'Jorge', 'Jose', 'Juliana',
+                'Morgan Forsyth', 'Tiffany Fixter'
+            ],
+            profiles: [], // Will be loaded dynamically
+            reports: [
+                { title: 'Comprehensive Analysis', path: 'data/Final Reports/COMPREHENSIVE ANALYSIS - Brewability Workplace Misconduct and Exploitation.txt' },
+                { title: 'Executive Summary', path: 'data/Final Reports/EXECUTIVE SUMMARY - Key Findings and Evidence.txt' },
+                { title: 'Timeline of Exploitation', path: 'data/Final Reports/TIMELINE - Chronological Pattern of Exploitation.txt' },
+                { title: 'Formal Licensing Complaint', path: 'data/Final Reports/FORMAL COMPLAINT TO THE ENGLEWOOD LOCAL LICENSING AUTHORITY.TXT' }
+            ],
+            testimonies: [
+                { title: 'Testimony - Juliana', path: 'data/Testimonies/Employee Testimony - Juliana.txt' },
+                { title: 'Testimony - Avery', path: 'data/Testimonies/My Testimony.txt' }
+            ]
+        };
 
-    // Data Store
-    const data = {
-        categories: [
-            { id: 'alcohol', label: 'Alcohol Violations', desc: 'Documentation of management drinking on duty and promotion of hard liquor.' },
-            { id: 'sexual', label: 'Sexual Misconduct', desc: 'Evidence of sexualized performances and adult content.' },
-            { id: 'exploitation', label: 'Exploitation & Coercion', desc: 'Unauthorized recording and potential exploitation of vulnerable staff.' },
-            { id: 'discrimination', label: 'Discrimination', desc: 'Retaliatory scheduling, hours reduction, and dismissive conduct.' },
-            { id: 'unsafe', label: 'Unsafe Conditions', desc: 'Inaccessible environments and ignored safety concerns.' },
-            { id: 'misrepresentation', label: 'Misrepresentation', desc: 'Deceptive marketing and political ideology promotion.' },
-            { id: 'profiles', label: 'Profiles', desc: 'All individuals documented in this evidence repository.' },
-            { id: 'final', label: 'Global Reports', desc: 'Comprehensive final reports and official complaints.' }
-        ],
-        cases: [
-            // Alcohol
-            {
-                id: 'c1', cat: 'alcohol', title: 'Management Drinking on Duty',
-                evidence: 'data/Analyzed files/trimmed-Management drinking (3).mp4',
-                report: 'data/AR/Analysis of trimmed-Management drinking (3).mp4 (2).txt',
-                type: 'video',
-                profiles: ['Jess', 'Connor']
-            },
-            {
-                id: 'c2', cat: 'alcohol', title: 'Liquor Promotion & Menu (Unified Evidence)',
-                evidenceFiles: [
-                    'data/Unified analysis files/menu promotion of hard liqour based cocktails.jpg + hard liqour, cocktails spirits.jpg + social media post advertising wine products.jpg (2) (menu promotion of hard liqour based cocktails).jpg',
-                    'data/Unified analysis files/menu promotion of hard liqour based cocktails.jpg + hard liqour, cocktails spirits.jpg + social media post advertising wine products.jpg (2) (hard liqour, cocktails spirits).jpg',
-                    'data/Unified analysis files/menu promotion of hard liqour based cocktails.jpg + hard liqour, cocktails spirits.jpg + social media post advertising wine products.jpg (2) (social media post advertising wine products).jpg'
-                ],
-                report: 'data/Unified analysis reports/Analysis of menu promotion of hard liqour based cocktails.jpg + hard liqour, cocktails spirits.jpg + social media post advertising wine products.jpg (2).txt',
-                type: 'unified-images',
-                profiles: ['Tiffany Fixter']
-            },
-            // Sexual
-            {
-                id: 'c3', cat: 'sexual', title: 'Magic Mike Performance',
-                evidence: 'data/Analyzed files/Magic mike Jose.mp4',
-                report: 'data/AR/Analysis of Magic mike Jose.mp4.txt',
-                type: 'video',
-                profiles: ['Jose', 'Tiffany Fixter']
-            },
-            {
-                id: 'c4', cat: 'sexual', title: 'Girls Night Out Event (Unified Evidence)',
-                evidenceFiles: [
-                    'data/Unified analysis files/Girls night out.png + jose dancing girls night out.mp4 + Surprise guest dancer girls night out.png + Jose Special Performance.png + pony little moses jones.mp4 (Girls night out).png',
-                    'data/Unified analysis files/Girls night out.png + jose dancing girls night out.mp4 + Surprise guest dancer girls night out.png + Jose Special Performance.png + pony little moses jones.mp4 (jose dancing girls night out).mp4',
-                    'data/Unified analysis files/Girls night out.png + jose dancing girls night out.mp4 + Surprise guest dancer girls night out.png + Jose Special Performance.png + pony little moses jones.mp4 (Surprise guest dancer girls night out).png',
-                    'data/Unified analysis files/Girls night out.png + jose dancing girls night out.mp4 + Surprise guest dancer girls night out.png + Jose Special Performance.png + pony little moses jones.mp4 (Jose Special Performance (2)).png',
-                    'data/Unified analysis files/Girls night out.png + jose dancing girls night out.mp4 + Surprise guest dancer girls night out.png + Jose Special Performance.png + pony little moses jones.mp4 (pony little moses jones (2)).mp4'
-                ],
-                report: 'data/Unified analysis reports/Analysis of Girls night out.png + jose dancing girls night out.mp4 + Surprise guest dancer girls night out.png + Jose Special Performance.png + pony little moses jones.mp4 + brewability promotes girls night out.png + Jose Special Performance.png (2).txt',
-                type: 'unified-mixed',
-                profiles: ['Jose']
-            },
-            // Exploitation
-            {
-                id: 'c5', cat: 'exploitation', title: 'Unauthorized Youtube Footage',
-                evidence: 'data/Analyzed files/video_unauthorized_youtube_footage.mp4',
-                report: 'data/AR/Analysis of video_unauthorized_youtube_footage.mp4.txt',
-                type: 'video',
-                profiles: ['Tiffany Fixter']
-            },
-            {
-                id: 'c6', cat: 'exploitation', title: 'Inappropriate Physical Contact',
-                evidence: 'data/Analyzed files/photo_person_sitting_on_person_brewability_stage.png',
-                report: 'data/AR/Analysis of photo_person_sitting_on_person_brewability_stage.png.txt',
-                type: 'image',
-                profiles: []
-            },
-            // Discrimination
-            {
-                id: 'c7', cat: 'discrimination', title: 'Retaliatory Hours Cut',
-                evidence: 'data/Analyzed files/Retaliatory hours cut due to refusal to ban caregiver - Copy.jpg',
-                report: 'data/AR/Analysis of Retaliatory hours cut due to refusal to ban caregiver - Copy.jpg.txt',
-                type: 'image',
-                profiles: ['Tiffany Fixter', 'Avery Becker']
-            },
-            {
-                id: 'c8', cat: 'discrimination', title: 'Dismissive Text Messages',
-                evidence: 'data/Analyzed files/text.png',
-                report: 'data/AR/Analysis of text.png.txt',
-                type: 'image',
-                profiles: ['Tiffany Fixter', 'Juliana']
-            },
-            // Unsafe
-            {
-                id: 'c9', cat: 'unsafe', title: 'Inaccessible Environment',
-                evidence: 'data/Analyzed files/inaccessible work environment.jpg',
-                report: 'data/AR/Analysis of inaccessible work environment.jpg.txt',
-                type: 'image',
-                profiles: ['Connor']
-            },
-            // Misrepresentation
-            {
-                id: 'c10', cat: 'misrepresentation', title: 'Political Ideology Promotion',
-                evidence: 'data/Analyzed files/brewability political ideology promotion.png',
-                report: 'data/AR/Analysis of brewability political ideology promotion.png.txt',
-                type: 'image',
-                profiles: []
-            },
-            {
-                id: 'c11', cat: 'misrepresentation', title: 'Public Shaming of Disability Advocate (Unified Evidence)',
-                evidenceFiles: [
-                    'data/Unified analysis files/autism and beer dont mix - Copy.png + byron.png (autism and beer dont mix - Copy).png',
-                    'data/Unified analysis files/autism and beer dont mix - Copy.png + byron.png (byron).png'
-                ],
-                report: 'data/Unified analysis reports/Analysis of autism and beer dont mix - Copy.png + byron.png.txt',
-                type: 'unified-images',
-                profiles: ['Tiffany Fixter']
-            },
-            {
-                id: 'c12', cat: 'misrepresentation', title: 'Inappropriate Event Promotion (Unified Evidence)',
-                evidenceFiles: [
-                    'data/Unified analysis files/promotion of inappropriate holiday parties around adults with disabilities.png + ignores concerns.png + promotion of lgbtq propoganda.png + manipulating people into drag shows with charity fundraisers.png + popup queen.png (ignores concerns).png',
-                    'data/Unified analysis files/promotion of inappropriate holiday parties around adults with disabilities.png + ignores concerns.png + promotion of lgbtq propoganda.png + manipulating people into drag shows with charity fundraisers.png + popup queen.png (popup queen).png',
-                    'data/Unified analysis files/promotion of inappropriate holiday parties around adults with disabilities.png + ignores concerns.png + promotion of lgbtq propoganda.png + manipulating people into drag shows with charity fundraisers.png + popup queen.png (2) (ignores concerns).png',
-                    'data/Unified analysis files/promotion of inappropriate holiday parties around adults with disabilities.png + ignores concerns.png + promotion of lgbtq propoganda.png + manipulating people into drag shows with charity fundraisers.png + popup queen.png (2) (popup queen).png'
-                ],
-                report: 'data/Unified analysis reports/Analysis of promotion of inappropriate holiday parties around adults with disabilities.png + ignores concerns.png + promotion of lgbtq propoganda.png + manipulating people into drag shows with charity fundraisers.png + popup queen.png.txt',
-                type: 'unified-images',
-                profiles: ['Tiffany Fixter']
-            }
-        ],
-        profileNames: [
-            'Aaron', 'AJ Szabo', 'Alyse', 'Alyse Morgan', 'Avery Becker', 'Connor',
-            'Jacob', 'Jess', 'Jorge', 'Jose', 'Juliana',
-            'Morgan Forsyth', 'Tiffany Fixter'
-        ],
-        profiles: [], // Will be loaded dynamically
-        reports: [
-            { title: 'Comprehensive Analysis', path: 'data/Final Reports/COMPREHENSIVE ANALYSIS - Brewability Workplace Misconduct and Exploitation.txt' },
-            { title: 'Executive Summary', path: 'data/Final Reports/EXECUTIVE SUMMARY - Key Findings and Evidence.txt' },
-            { title: 'Timeline of Exploitation', path: 'data/Final Reports/TIMELINE - Chronological Pattern of Exploitation.txt' },
-            { title: 'Formal Licensing Complaint', path: 'data/Final Reports/FORMAL COMPLAINT TO THE ENGLEWOOD LOCAL LICENSING AUTHORITY.TXT' }
-        ],
-        testimonies: [
-            { title: 'Testimony - Juliana', path: 'data/Testimonies/Employee Testimony - Juliana.txt' },
-            { title: 'Testimony - Avery', path: 'data/Testimonies/My Testimony.txt' }
-        ]
-    };
+        // App Logic
+        function init() {
+            renderSidebar();
+            renderCategory('alcohol'); // Default view
+        }
 
-    // App Logic
-    function init() {
-        renderSidebar();
-        renderCategory('alcohol'); // Default view
-    }
+        function renderSidebar() {
+            const nav = document.getElementById('navLinks');
+            data.categories.forEach(cat => {
+                const div = document.createElement('div');
+                div.className = 'nav-category';
+                div.innerText = cat.label;
+                div.onclick = () => renderCategory(cat.id);
+                div.id = `nav-${cat.id}`;
+                nav.appendChild(div);
+            });
+        }
 
-    function renderSidebar() {
-        const nav = document.getElementById('navLinks');
-        data.categories.forEach(cat => {
-            const div = document.createElement('div');
-            div.className = 'nav-category';
-            div.innerText = cat.label;
-            div.onclick = () => renderCategory(cat.id);
-            div.id = `nav-${cat.id}`;
-            nav.appendChild(div);
-        });
-    }
+        async function renderCategory(catId) {
+            // Update Nav
+            document.querySelectorAll('.nav-category').forEach(el => el.classList.remove('active'));
+            document.getElementById(`nav-${catId}`).classList.add('active');
 
-    async function renderCategory(catId) {
-        // Update Nav
-        document.querySelectorAll('.nav-category').forEach(el => el.classList.remove('active'));
-        document.getElementById(`nav-${catId}`).classList.add('active');
+            const container = document.getElementById('contentArea');
+            container.innerHTML = '';
 
-        const container = document.getElementById('contentArea');
-        container.innerHTML = '';
+            const cat = data.categories.find(c => c.id === catId);
 
-        const cat = data.categories.find(c => c.id === catId);
-
-        // Header
-        const header = document.createElement('div');
-        header.innerHTML = `
+            // Header
+            const header = document.createElement('div');
+            header.innerHTML = `
             <div class="section-title">${cat.label}</div>
             <div class="section-desc">${cat.desc}</div>
         `;
-        container.appendChild(header);
+            container.appendChild(header);
 
-        // Filter Cases
-        if (catId === 'final') {
-            // Grid for Global Reports
-            const grid = document.createElement('div');
-            grid.className = 'grid';
-            data.reports.forEach(rep => {
-                const card = createDocCard(rep, 'Final Report');
-                grid.appendChild(card);
-            });
-            data.testimonies.forEach(test => {
-                const card = createDocCard(test, 'Testimony');
-                grid.appendChild(card);
-            });
-            container.appendChild(grid);
-        } else if (catId === 'profiles') {
-            // Special render for Profiles - column layout
-            const profilesContainer = document.createElement('div');
-            profilesContainer.style.maxWidth = '900px';
+            // Filter Cases
+            if (catId === 'final') {
+                // Grid for Global Reports
+                const grid = document.createElement('div');
+                grid.className = 'grid';
+                data.reports.forEach(rep => {
+                    const card = createDocCard(rep, 'Final Report');
+                    grid.appendChild(card);
+                });
+                data.testimonies.forEach(test => {
+                    const card = createDocCard(test, 'Testimony');
+                    grid.appendChild(card);
+                });
+                container.appendChild(grid);
+            } else if (catId === 'profiles') {
+                // Special render for Profiles - column layout
+                const profilesContainer = document.createElement('div');
+                profilesContainer.style.maxWidth = '900px';
 
-            if (data.profiles.length === 0) {
-                profilesContainer.innerHTML = '<div class="profiles-loading">Loading profiles...</div>';
+                if (data.profiles.length === 0) {
+                    profilesContainer.innerHTML = '<div class="profiles-loading">Loading profiles...</div>';
+                    container.appendChild(profilesContainer);
+
+                    // Load profiles
+                    await loadProfiles();
+                    profilesContainer.innerHTML = '';
+                }
+
+                data.profiles.forEach(profile => {
+                    const card = createProfileCard(profile);
+                    profilesContainer.appendChild(card);
+                });
                 container.appendChild(profilesContainer);
-
-                // Load profiles
-                await loadProfiles();
-                profilesContainer.innerHTML = '';
-            }
-
-            data.profiles.forEach(profile => {
-                const card = createProfileCard(profile);
-                profilesContainer.appendChild(card);
-            });
-            container.appendChild(profilesContainer);
-        } else {
-            // Grid for regular cases
-            const grid = document.createElement('div');
-            grid.className = 'grid';
-            const cases = data.cases.filter(c => c.cat === catId);
-            cases.forEach(c => {
-                const card = createCaseCard(c);
-                grid.appendChild(card);
-            });
-            container.appendChild(grid);
-        }
-    }
-
-    function createCaseCard(c) {
-        const div = document.createElement('div');
-        div.className = 'case-card';
-        div.onclick = () => openModal(c);
-
-        let thumbContent = '';
-        let badgeLabel = c.type;
-
-        // Handle unified evidence
-        if (c.evidenceFiles && c.evidenceFiles.length > 0) {
-            const firstFile = c.evidenceFiles[0];
-            const url = GITHUB_BASE + encodeURI(firstFile);
-            if (firstFile.toLowerCase().endsWith('.mp4')) {
-                thumbContent = `<video src="${url}#t=1" muted preload="metadata"></video>`;
             } else {
-                thumbContent = `<img src="${url}" alt="${c.title}">`;
-            }
-            badgeLabel = `Unified (${c.evidenceFiles.length} files)`;
-        } else {
-            // Single file evidence
-            const url = GITHUB_BASE + encodeURI(c.evidence);
-            if (c.type === 'video') {
-                thumbContent = `<video src="${url}#t=1" muted preload="metadata"></video>`;
-            } else {
-                thumbContent = `<img src="${url}" alt="${c.title}">`;
+                // Grid for regular cases
+                const grid = document.createElement('div');
+                grid.className = 'grid';
+                const cases = data.cases.filter(c => c.cat === catId);
+                cases.forEach(c => {
+                    const card = createCaseCard(c);
+                    grid.appendChild(card);
+                });
+                container.appendChild(grid);
             }
         }
 
-        div.innerHTML = `
+        function createCaseCard(c) {
+            const div = document.createElement('div');
+            div.className = 'case-card';
+            div.onclick = () => openModal(c);
+
+            let thumbContent = '';
+            let badgeLabel = c.type;
+
+            // Handle unified evidence
+            if (c.evidenceFiles && c.evidenceFiles.length > 0) {
+                const firstFile = c.evidenceFiles[0];
+                const url = GITHUB_BASE + encodeURI(firstFile);
+                if (firstFile.toLowerCase().endsWith('.mp4')) {
+                    thumbContent = `<video src="${url}#t=1" muted preload="metadata"></video>`;
+                } else {
+                    thumbContent = `<img src="${url}" alt="${c.title}">`;
+                }
+                badgeLabel = `Unified (${c.evidenceFiles.length} files)`;
+            } else {
+                // Single file evidence
+                const url = GITHUB_BASE + encodeURI(c.evidence);
+                if (c.type === 'video') {
+                    thumbContent = `<video src="${url}#t=1" muted preload="metadata"></video>`;
+                } else {
+                    thumbContent = `<img src="${url}" alt="${c.title}">`;
+                }
+            }
+
+            div.innerHTML = `
             <div class="card-thumb">
                 ${thumbContent}
                 <div class="card-type-badge">${badgeLabel}</div>
@@ -971,25 +1040,25 @@
             </div>
         `;
 
-        // Add download button
-        const downloadBtn = document.createElement('button');
-        downloadBtn.className = 'btn-download';
-        downloadBtn.innerHTML = '⬇ Download All Files';
-        downloadBtn.onclick = (e) => {
-            e.stopPropagation();
-            downloadUnifiedReport(c);
-        };
-        div.querySelector('.card-body').appendChild(downloadBtn);
+            // Add download button
+            const downloadBtn = document.createElement('button');
+            downloadBtn.className = 'btn-download';
+            downloadBtn.innerHTML = '⬇ Download All Files';
+            downloadBtn.onclick = (e) => {
+                e.stopPropagation();
+                downloadUnifiedReport(c);
+            };
+            div.querySelector('.card-body').appendChild(downloadBtn);
 
-        return div;
-    }
+            return div;
+        }
 
-    function createDocCard(doc, type) {
-        const div = document.createElement('div');
-        div.className = 'case-card';
-        div.onclick = () => window.open(GITHUB_BASE + encodeURI(doc.path), '_blank');
+        function createDocCard(doc, type) {
+            const div = document.createElement('div');
+            div.className = 'case-card';
+            div.onclick = () => window.open(GITHUB_BASE + encodeURI(doc.path), '_blank');
 
-        div.innerHTML = `
+            div.innerHTML = `
             <div class="card-body">
                 <div class="card-type-badge" style="position:static; margin-bottom:10px; display:inline-block; background:#3b82f6;">${type}</div>
                 <div class="card-title">${doc.title}</div>
@@ -997,17 +1066,17 @@
                 <button class="btn-open">View Document</button>
             </div>
         `;
-        return div;
-    }
+            return div;
+        }
 
-    function createProfileCard(profile) {
-        const div = document.createElement('div');
-        div.className = 'profile-item';
+        function createProfileCard(profile) {
+            const div = document.createElement('div');
+            div.className = 'profile-item';
 
-        const imgUrl = GITHUB_BASE + encodeURI(profile.img);
-        const relatedCases = data.cases.filter(c => c.profiles && c.profiles.includes(profile.name));
+            const imgUrl = GITHUB_BASE + encodeURI(profile.img);
+            const relatedCases = data.cases.filter(c => c.profiles && c.profiles.includes(profile.name));
 
-        div.innerHTML = `
+            div.innerHTML = `
             <div class="profile-header">
                 <img src="${imgUrl}" alt="${profile.name}" class="profile-thumbnail profile-img-clickable" style="cursor:pointer;" title="Click to view fullscreen" data-img-url="${imgUrl}">
                 <div class="profile-header-info">
@@ -1047,476 +1116,476 @@
             </div>
         `;
 
-        // Add click event for expansion
-        const header = div.querySelector('.profile-header');
-        const details = div.querySelector('.profile-details');
-        const icon = div.querySelector('.profile-expand-icon');
+            // Add click event for expansion
+            const header = div.querySelector('.profile-header');
+            const details = div.querySelector('.profile-details');
+            const icon = div.querySelector('.profile-expand-icon');
 
-        header.addEventListener('click', (e) => {
-            // Don't expand if clicking on the thumbnail image
-            if (e.target.classList.contains('profile-img-clickable')) {
-                return;
-            }
-
-            const isExpanded = details.classList.contains('expanded');
-            // Close all other profiles
-            document.querySelectorAll('.profile-details').forEach(d => d.classList.remove('expanded'));
-            document.querySelectorAll('.profile-expand-icon').forEach(i => i.classList.remove('expanded'));
-
-            if (!isExpanded) {
-                details.classList.add('expanded');
-                icon.classList.add('expanded');
-            }
-        });
-
-        // Add click handlers for images
-        div.querySelectorAll('.profile-img-clickable').forEach(img => {
-            img.addEventListener('click', (e) => {
-                e.stopPropagation();
-                openFullscreen(img.getAttribute('data-img-url'));
-            });
-        });
-
-        return div;
-    }
-
-    // Load profiles from JSON files
-    async function loadProfiles() {
-        const profiles = [];
-        for (const name of data.profileNames) {
-            try {
-                const jsonUrl = GITHUB_BASE + encodeURI(`data/Profiles/${name}.profile.json`);
-                const res = await fetch(jsonUrl);
-                if (res.ok) {
-                    const profileData = await res.json();
-                    profiles.push({
-                        ...profileData,
-                        img: `data/Profiles/${name}.reference.png`
-                    });
+            header.addEventListener('click', (e) => {
+                // Don't expand if clicking on the thumbnail image
+                if (e.target.classList.contains('profile-img-clickable')) {
+                    return;
                 }
-            } catch (e) {
-                console.error(`Failed to load profile: ${name}`, e);
-            }
+
+                const isExpanded = details.classList.contains('expanded');
+                // Close all other profiles
+                document.querySelectorAll('.profile-details').forEach(d => d.classList.remove('expanded'));
+                document.querySelectorAll('.profile-expand-icon').forEach(i => i.classList.remove('expanded'));
+
+                if (!isExpanded) {
+                    details.classList.add('expanded');
+                    icon.classList.add('expanded');
+                }
+            });
+
+            // Add click handlers for images
+            div.querySelectorAll('.profile-img-clickable').forEach(img => {
+                img.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openFullscreen(img.getAttribute('data-img-url'));
+                });
+            });
+
+            return div;
         }
-        data.profiles = profiles;
-        return profiles;
-    }
 
-    // Modal Logic
-    let currentFileIndex = 0;
-    let currentCase = null;
-
-    async function openModal(c) {
-        const modal = document.getElementById('caseModal');
-        modal.style.display = 'flex';
-        document.getElementById('mTitle').innerText = c.title;
-        currentCase = c;
-        currentFileIndex = 0;
-
-        // Setup download buttons
-        const downloadCurrentBtn = document.getElementById('downloadCurrentBtn');
-        const downloadAllBtn = document.getElementById('downloadAllModalBtn');
-
-        downloadCurrentBtn.onclick = () => {
-            let fileToDownload;
-            if (c.evidenceFiles && c.evidenceFiles.length > 0) {
-                fileToDownload = c.evidenceFiles[currentFileIndex];
-            } else {
-                fileToDownload = c.evidence;
+        // Load profiles from JSON files
+        async function loadProfiles() {
+            const profiles = [];
+            for (const name of data.profileNames) {
+                try {
+                    const jsonUrl = GITHUB_BASE + encodeURI(`data/Profiles/${name}.profile.json`);
+                    const res = await fetch(jsonUrl);
+                    if (res.ok) {
+                        const profileData = await res.json();
+                        profiles.push({
+                            ...profileData,
+                            img: `data/Profiles/${name}.reference.png`
+                        });
+                    }
+                } catch (e) {
+                    console.error(`Failed to load profile: ${name}`, e);
+                }
             }
-            const url = GITHUB_BASE + encodeURI(fileToDownload);
-            const filename = fileToDownload.split('/').pop();
-            downloadFile(url, filename);
-        };
+            data.profiles = profiles;
+            return profiles;
+        }
 
-        downloadAllBtn.onclick = () => {
-            downloadUnifiedReport(c);
-        };
+        // Modal Logic
+        let currentFileIndex = 0;
+        let currentCase = null;
 
-        // Setup download report button
-        const downloadReportBtn = document.getElementById('downloadReportBtn');
-        downloadReportBtn.onclick = () => {
-            const reportUrl = GITHUB_BASE + encodeURI(c.report);
-            const reportFilename = c.report.split('/').pop();
-            downloadFile(reportUrl, reportFilename);
-        };
+        async function openModal(c) {
+            const modal = document.getElementById('caseModal');
+            modal.style.display = 'flex';
+            document.getElementById('mTitle').innerText = c.title;
+            currentCase = c;
+            currentFileIndex = 0;
 
-        // Setup print report button
-        const printReportBtn = document.getElementById('printReportBtn');
-        printReportBtn.onclick = () => {
-            printReport(c.title);
-        };
+            // Setup download buttons
+            const downloadCurrentBtn = document.getElementById('downloadCurrentBtn');
+            const downloadAllBtn = document.getElementById('downloadAllModalBtn');
 
-        // Load Evidence (unified or single)
-        const evContainer = document.getElementById('mEvidence');
-        const additionalFilesSection = document.getElementById('mAdditionalFiles');
-        const additionalFilesContainer = document.getElementById('mAdditionalFilesContainer');
+            downloadCurrentBtn.onclick = () => {
+                let fileToDownload;
+                if (c.evidenceFiles && c.evidenceFiles.length > 0) {
+                    fileToDownload = c.evidenceFiles[currentFileIndex];
+                } else {
+                    fileToDownload = c.evidence;
+                }
+                const url = GITHUB_BASE + encodeURI(fileToDownload);
+                const filename = fileToDownload.split('/').pop();
+                downloadFile(url, filename);
+            };
 
-        if (c.evidenceFiles && c.evidenceFiles.length > 0) {
-            // Show first file in main viewer
-            showFile(c.evidenceFiles[0], 0, c.evidenceFiles.length);
+            downloadAllBtn.onclick = () => {
+                downloadUnifiedReport(c);
+            };
 
-            // Show additional files as thumbnails in sidebar if more than 1 file
-            if (c.evidenceFiles.length > 1) {
-                additionalFilesSection.style.display = 'block';
-                additionalFilesContainer.innerHTML = '';
+            // Setup download report button
+            const downloadReportBtn = document.getElementById('downloadReportBtn');
+            downloadReportBtn.onclick = () => {
+                const reportUrl = GITHUB_BASE + encodeURI(c.report);
+                const reportFilename = c.report.split('/').pop();
+                downloadFile(reportUrl, reportFilename);
+            };
 
-                c.evidenceFiles.forEach((file, idx) => {
-                    const url = GITHUB_BASE + encodeURI(file);
-                    const isVideo = file.toLowerCase().endsWith('.mp4');
-                    const filename = file.split('/').pop();
+            // Setup print report button
+            const printReportBtn = document.getElementById('printReportBtn');
+            printReportBtn.onclick = () => {
+                printReport(c.title);
+            };
 
-                    const thumbDiv = document.createElement('div');
-                    thumbDiv.style.marginBottom = '15px';
+            // Load Evidence (unified or single)
+            const evContainer = document.getElementById('mEvidence');
+            const additionalFilesSection = document.getElementById('mAdditionalFiles');
+            const additionalFilesContainer = document.getElementById('mAdditionalFilesContainer');
 
-                    if (isVideo) {
-                        thumbDiv.innerHTML = `
+            if (c.evidenceFiles && c.evidenceFiles.length > 0) {
+                // Show first file in main viewer
+                showFile(c.evidenceFiles[0], 0, c.evidenceFiles.length);
+
+                // Show additional files as thumbnails in sidebar if more than 1 file
+                if (c.evidenceFiles.length > 1) {
+                    additionalFilesSection.style.display = 'block';
+                    additionalFilesContainer.innerHTML = '';
+
+                    c.evidenceFiles.forEach((file, idx) => {
+                        const url = GITHUB_BASE + encodeURI(file);
+                        const isVideo = file.toLowerCase().endsWith('.mp4');
+                        const filename = file.split('/').pop();
+
+                        const thumbDiv = document.createElement('div');
+                        thumbDiv.style.marginBottom = '15px';
+
+                        if (isVideo) {
+                            thumbDiv.innerHTML = `
                             <div style="font-size:0.75rem; color:#64748b; margin-bottom:4px; display:flex; justify-content:space-between; align-items:center;">
                                 <span>File ${idx + 1}</span>
                                 <button class="thumb-download-btn" style="background:none; border:none; color:#3b82f6; cursor:pointer; font-size:0.75rem; padding:2px 6px;" title="Download this file">⬇</button>
                             </div>
                             <video class="file-thumbnail ${idx === 0 ? 'active' : ''}" src="${url}#t=1" muted preload="metadata" data-index="${idx}" title="Click to switch to this file"></video>
                         `;
-                    } else {
-                        thumbDiv.innerHTML = `
+                        } else {
+                            thumbDiv.innerHTML = `
                             <div style="font-size:0.75rem; color:#64748b; margin-bottom:4px; display:flex; justify-content:space-between; align-items:center;">
                                 <span>File ${idx + 1}</span>
                                 <button class="thumb-download-btn" style="background:none; border:none; color:#3b82f6; cursor:pointer; font-size:0.75rem; padding:2px 6px;" title="Download this file">⬇</button>
                             </div>
                             <img class="file-thumbnail ${idx === 0 ? 'active' : ''}" src="${url}" data-index="${idx}" title="Click to switch to this file">
                         `;
-                    }
+                        }
 
-                    // Add download handler
-                    const downloadBtn = thumbDiv.querySelector('.thumb-download-btn');
-                    downloadBtn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        downloadFile(url, filename);
+                        // Add download handler
+                        const downloadBtn = thumbDiv.querySelector('.thumb-download-btn');
+                        downloadBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            downloadFile(url, filename);
+                        });
+
+                        thumbDiv.querySelector('.file-thumbnail').addEventListener('click', () => {
+                            currentFileIndex = idx;
+                            showFile(file, idx, c.evidenceFiles.length);
+                            // Update active state
+                            document.querySelectorAll('.file-thumbnail').forEach(t => t.classList.remove('active'));
+                            thumbDiv.querySelector('.file-thumbnail').classList.add('active');
+                        });
+
+                        additionalFilesContainer.appendChild(thumbDiv);
                     });
-
-                    thumbDiv.querySelector('.file-thumbnail').addEventListener('click', () => {
-                        currentFileIndex = idx;
-                        showFile(file, idx, c.evidenceFiles.length);
-                        // Update active state
-                        document.querySelectorAll('.file-thumbnail').forEach(t => t.classList.remove('active'));
-                        thumbDiv.querySelector('.file-thumbnail').classList.add('active');
-                    });
-
-                    additionalFilesContainer.appendChild(thumbDiv);
-                });
+                } else {
+                    additionalFilesSection.style.display = 'none';
+                }
             } else {
+                // Single file evidence
                 additionalFilesSection.style.display = 'none';
+                const url = GITHUB_BASE + encodeURI(c.evidence);
+                if (c.type === 'video') {
+                    evContainer.innerHTML = `<video src="${url}" controls style="width:100%; max-height:500px; background:black; border-radius:8px;"></video>`;
+                } else {
+                    evContainer.innerHTML = `<img id="currentEvidenceImage" src="${url}" style="width:100%; max-height:500px; object-fit:contain; border-radius:8px; cursor:pointer;" title="Click to view fullscreen">`;
+                    // Add click handler after setting innerHTML
+                    setTimeout(() => {
+                        const img = document.getElementById('currentEvidenceImage');
+                        if (img) {
+                            img.onclick = () => openFullscreen(url);
+                        }
+                    }, 0);
+                }
             }
-        } else {
-            // Single file evidence
-            additionalFilesSection.style.display = 'none';
-            const url = GITHUB_BASE + encodeURI(c.evidence);
-            if (c.type === 'video') {
-                evContainer.innerHTML = `<video src="${url}" controls style="width:100%; max-height:500px; background:black; border-radius:8px;"></video>`;
-            } else {
-                evContainer.innerHTML = `<img id="currentEvidenceImage" src="${url}" style="width:100%; max-height:500px; object-fit:contain; border-radius:8px; cursor:pointer;" title="Click to view fullscreen">`;
-                // Add click handler after setting innerHTML
-                setTimeout(() => {
-                    const img = document.getElementById('currentEvidenceImage');
-                    if (img) {
-                        img.onclick = () => openFullscreen(url);
-                    }
-                }, 0);
-            }
-        }
 
-    function showFile(file, index, total) {
-        const evContainer = document.getElementById('mEvidence');
-        const url = GITHUB_BASE + encodeURI(file);
-        const fileName = file.split('/').pop();
-        const isVideo = file.toLowerCase().endsWith('.mp4');
+            function showFile(file, index, total) {
+                const evContainer = document.getElementById('mEvidence');
+                const url = GITHUB_BASE + encodeURI(file);
+                const fileName = file.split('/').pop();
+                const isVideo = file.toLowerCase().endsWith('.mp4');
 
-        if (isVideo) {
-            evContainer.innerHTML = `
+                if (isVideo) {
+                    evContainer.innerHTML = `
                 <div>
                     <div style="font-size:0.85rem; color:#64748b; margin-bottom:8px;">Evidence File ${index + 1}/${total}: ${fileName}</div>
                     <video src="${url}" controls style="width:100%; max-height:500px; background:black; border-radius:8px;"></video>
                 </div>
             `;
-        } else {
-            evContainer.innerHTML = `
+                } else {
+                    evContainer.innerHTML = `
                 <div>
                     <div style="font-size:0.85rem; color:#64748b; margin-bottom:8px;">Evidence File ${index + 1}/${total}: ${fileName}</div>
                     <img id="currentEvidenceImage" src="${url}" style="width:100%; max-height:500px; object-fit:contain; border-radius:8px; border:1px solid #e2e8f0; cursor:pointer;" title="Click to view fullscreen">
                 </div>
             `;
-            // Add click handler after setting innerHTML
-            setTimeout(() => {
-                const img = document.getElementById('currentEvidenceImage');
-                if (img) {
-                    img.onclick = () => openFullscreen(url);
+                    // Add click handler after setting innerHTML
+                    setTimeout(() => {
+                        const img = document.getElementById('currentEvidenceImage');
+                        if (img) {
+                            img.onclick = () => openFullscreen(url);
+                        }
+                    }, 0);
                 }
-            }, 0);
-        }
-    }
+            }
 
-        // Load Report
-        const repContainer = document.getElementById('mReport');
-        repContainer.innerText = 'Loading...';
-        try {
-            const repUrl = GITHUB_BASE + encodeURI(c.report);
-            const res = await fetch(repUrl);
-            if(!res.ok) throw new Error('Failed to load');
-            const text = await res.text();
-            repContainer.innerText = text;
-        } catch (e) {
-            repContainer.innerText = 'Error loading analysis report. Please check connection.';
-        }
+            // Load Report
+            const repContainer = document.getElementById('mReport');
+            repContainer.innerText = 'Loading...';
+            try {
+                const repUrl = GITHUB_BASE + encodeURI(c.report);
+                const res = await fetch(repUrl);
+                if (!res.ok) throw new Error('Failed to load');
+                const text = await res.text();
+                repContainer.innerText = text;
+            } catch (e) {
+                repContainer.innerText = 'Error loading analysis report. Please check connection.';
+            }
 
-        // Load Profiles
-        const profContainer = document.getElementById('mProfiles');
-        profContainer.innerHTML = '';
+            // Load Profiles
+            const profContainer = document.getElementById('mProfiles');
+            profContainer.innerHTML = '';
 
-        // Ensure profiles are loaded
-        if (data.profiles.length === 0) {
-            await loadProfiles();
-        }
+            // Ensure profiles are loaded
+            if (data.profiles.length === 0) {
+                await loadProfiles();
+            }
 
-        profContainer.innerHTML = ''; // Clear first
-        c.profiles.forEach(pName => {
-            const p = data.profiles.find(x => x.name === pName);
-            if (p) {
-                const pUrl = GITHUB_BASE + encodeURI(p.img);
-                const chipDiv = document.createElement('div');
-                chipDiv.className = 'profile-chip';
-                chipDiv.innerHTML = `
+            profContainer.innerHTML = ''; // Clear first
+            c.profiles.forEach(pName => {
+                const p = data.profiles.find(x => x.name === pName);
+                if (p) {
+                    const pUrl = GITHUB_BASE + encodeURI(p.img);
+                    const chipDiv = document.createElement('div');
+                    chipDiv.className = 'profile-chip';
+                    chipDiv.innerHTML = `
                     <img src="${pUrl}" class="modal-profile-img" style="cursor:pointer;" title="Click to view fullscreen" data-img-url="${pUrl}">
                     <div>
                         <div style="font-weight:600; font-size:0.9rem;">${p.name}</div>
                         <div style="font-size:0.75rem; color:#64748b;">${p.description ? p.description.substring(0, 40) + '...' : 'Profile'}</div>
                     </div>
                 `;
-                profContainer.appendChild(chipDiv);
+                    profContainer.appendChild(chipDiv);
 
-                // Add click handler
-                const img = chipDiv.querySelector('.modal-profile-img');
-                img.addEventListener('click', () => {
-                    openFullscreen(img.getAttribute('data-img-url'));
-                });
+                    // Add click handler
+                    const img = chipDiv.querySelector('.modal-profile-img');
+                    img.addEventListener('click', () => {
+                        openFullscreen(img.getAttribute('data-img-url'));
+                    });
+                }
+            });
+
+            // Load Related Documents (Final Reports link)
+            const finalContainer = document.getElementById('mFinalReports');
+            finalContainer.innerHTML = '';
+            data.reports.forEach(rep => {
+                const rUrl = GITHUB_BASE + encodeURI(rep.path);
+                finalContainer.innerHTML += `<a href="${rUrl}" target="_blank" class="doc-link">📄 ${rep.title}</a>`;
+            });
+
+            const testContainer = document.getElementById('mTestimonies');
+            testContainer.innerHTML = '';
+            data.testimonies.forEach(test => {
+                const tUrl = GITHUB_BASE + encodeURI(test.path);
+                testContainer.innerHTML += `<a href="${tUrl}" target="_blank" class="doc-link">🗣️ ${test.title}</a>`;
+            });
+        }
+
+        function closeModal() {
+            document.getElementById('caseModal').style.display = 'none';
+            document.getElementById('mEvidence').innerHTML = ''; // Stop video
+        }
+
+        // Close on outside click
+        document.getElementById('caseModal').addEventListener('click', (e) => {
+            if (e.target.id === 'caseModal') closeModal();
+        });
+
+        init();
+
+        // Download functionality
+        async function downloadFile(url, filename) {
+            try {
+                const response = await fetch(url);
+                const blob = await response.blob();
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(link.href);
+            } catch (error) {
+                console.error('Download failed:', error);
+                alert('Download failed. Please try again.');
             }
-        });
-
-        // Load Related Documents (Final Reports link)
-        const finalContainer = document.getElementById('mFinalReports');
-        finalContainer.innerHTML = '';
-        data.reports.forEach(rep => {
-            const rUrl = GITHUB_BASE + encodeURI(rep.path);
-            finalContainer.innerHTML += `<a href="${rUrl}" target="_blank" class="doc-link">📄 ${rep.title}</a>`;
-        });
-
-        const testContainer = document.getElementById('mTestimonies');
-        testContainer.innerHTML = '';
-        data.testimonies.forEach(test => {
-             const tUrl = GITHUB_BASE + encodeURI(test.path);
-             testContainer.innerHTML += `<a href="${tUrl}" target="_blank" class="doc-link">🗣️ ${test.title}</a>`;
-        });
-    }
-
-    function closeModal() {
-        document.getElementById('caseModal').style.display = 'none';
-        document.getElementById('mEvidence').innerHTML = ''; // Stop video
-    }
-
-    // Close on outside click
-    document.getElementById('caseModal').addEventListener('click', (e) => {
-        if (e.target.id === 'caseModal') closeModal();
-    });
-
-    init();
-
-    // Download functionality
-    async function downloadFile(url, filename) {
-        try {
-            const response = await fetch(url);
-            const blob = await response.blob();
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = filename;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(link.href);
-        } catch (error) {
-            console.error('Download failed:', error);
-            alert('Download failed. Please try again.');
-        }
-    }
-
-    async function downloadUnifiedReport(caseData) {
-        const JSZip = await loadJSZip();
-        if (!JSZip) {
-            alert('Unable to load ZIP library. Please check your internet connection.');
-            return;
         }
 
-        const zip = new JSZip();
-        const folderName = caseData.title.replace(/[^a-z0-9]/gi, '_');
+        async function downloadUnifiedReport(caseData) {
+            const JSZip = await loadJSZip();
+            if (!JSZip) {
+                alert('Unable to load ZIP library. Please check your internet connection.');
+                return;
+            }
 
-        try {
-            // Add all evidence files
-            if (caseData.evidenceFiles && caseData.evidenceFiles.length > 0) {
-                for (let i = 0; i < caseData.evidenceFiles.length; i++) {
-                    const filePath = caseData.evidenceFiles[i];
-                    const url = GITHUB_BASE + encodeURI(filePath);
-                    const filename = filePath.split('/').pop();
+            const zip = new JSZip();
+            const folderName = caseData.title.replace(/[^a-z0-9]/gi, '_');
+
+            try {
+                // Add all evidence files
+                if (caseData.evidenceFiles && caseData.evidenceFiles.length > 0) {
+                    for (let i = 0; i < caseData.evidenceFiles.length; i++) {
+                        const filePath = caseData.evidenceFiles[i];
+                        const url = GITHUB_BASE + encodeURI(filePath);
+                        const filename = filePath.split('/').pop();
+
+                        const response = await fetch(url);
+                        const blob = await response.blob();
+                        zip.file(`${folderName}/evidence/${filename}`, blob);
+                    }
+                } else if (caseData.evidence) {
+                    // Single file case
+                    const url = GITHUB_BASE + encodeURI(caseData.evidence);
+                    const filename = caseData.evidence.split('/').pop();
 
                     const response = await fetch(url);
                     const blob = await response.blob();
                     zip.file(`${folderName}/evidence/${filename}`, blob);
                 }
-            } else if (caseData.evidence) {
-                // Single file case
-                const url = GITHUB_BASE + encodeURI(caseData.evidence);
-                const filename = caseData.evidence.split('/').pop();
 
-                const response = await fetch(url);
-                const blob = await response.blob();
-                zip.file(`${folderName}/evidence/${filename}`, blob);
+                // Add analysis report
+                if (caseData.report) {
+                    const reportUrl = GITHUB_BASE + encodeURI(caseData.report);
+                    const reportFilename = caseData.report.split('/').pop();
+
+                    const response = await fetch(reportUrl);
+                    const text = await response.text();
+                    zip.file(`${folderName}/${reportFilename}`, text);
+                }
+
+                // Generate ZIP file
+                const content = await zip.generateAsync({ type: 'blob' });
+
+                // Download ZIP
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(content);
+                link.download = `${folderName}.zip`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(link.href);
+
+            } catch (error) {
+                console.error('Download failed:', error);
+                alert('Download failed. Please try again.');
             }
-
-            // Add analysis report
-            if (caseData.report) {
-                const reportUrl = GITHUB_BASE + encodeURI(caseData.report);
-                const reportFilename = caseData.report.split('/').pop();
-
-                const response = await fetch(reportUrl);
-                const text = await response.text();
-                zip.file(`${folderName}/${reportFilename}`, text);
-            }
-
-            // Generate ZIP file
-            const content = await zip.generateAsync({ type: 'blob' });
-
-            // Download ZIP
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(content);
-            link.download = `${folderName}.zip`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(link.href);
-
-        } catch (error) {
-            console.error('Download failed:', error);
-            alert('Download failed. Please try again.');
         }
-    }
 
-    // Load JSZip library dynamically
-    async function loadJSZip() {
-        if (window.JSZip) return window.JSZip;
+        // Load JSZip library dynamically
+        async function loadJSZip() {
+            if (window.JSZip) return window.JSZip;
 
-        return new Promise((resolve, reject) => {
-            const script = document.createElement('script');
-            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
-            script.onload = () => resolve(window.JSZip);
-            script.onerror = () => resolve(null);
-            document.head.appendChild(script);
-        });
-    }
-
-    // Fullscreen image viewer functionality
-    let currentZoom = 1;
-    let isDragging = false;
-    let dragStart = { x: 0, y: 0 };
-    let imagePosition = { x: 0, y: 0 };
-
-    function openFullscreen(imageSrc) {
-        const viewer = document.getElementById('fullscreenViewer');
-        const image = document.getElementById('fullscreenImage');
-
-        image.src = imageSrc;
-        viewer.style.display = 'flex';
-        currentZoom = 1;
-        imagePosition = { x: 0, y: 0 };
-        image.style.transform = 'translate(0, 0) scale(1)';
-
-        // Add drag functionality
-        image.onmousedown = startDrag;
-        document.onmousemove = drag;
-        document.onmouseup = stopDrag;
-    }
-
-    function closeFullscreen() {
-        const viewer = document.getElementById('fullscreenViewer');
-        viewer.style.display = 'none';
-        isDragging = false;
-    }
-
-    function zoomIn() {
-        currentZoom = Math.min(currentZoom + 0.25, 5);
-        updateImageTransform();
-    }
-
-    function zoomOut() {
-        currentZoom = Math.max(currentZoom - 0.25, 0.5);
-        updateImageTransform();
-    }
-
-    function resetZoom() {
-        currentZoom = 1;
-        imagePosition = { x: 0, y: 0 };
-        updateImageTransform();
-    }
-
-    function updateImageTransform() {
-        const image = document.getElementById('fullscreenImage');
-        image.style.transform = `translate(${imagePosition.x}px, ${imagePosition.y}px) scale(${currentZoom})`;
-    }
-
-    function startDrag(e) {
-        if (currentZoom > 1) {
-            isDragging = true;
-            dragStart = { x: e.clientX - imagePosition.x, y: e.clientY - imagePosition.y };
-            e.preventDefault();
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+                script.onload = () => resolve(window.JSZip);
+                script.onerror = () => resolve(null);
+                document.head.appendChild(script);
+            });
         }
-    }
 
-    function drag(e) {
-        if (isDragging) {
-            imagePosition = {
-                x: e.clientX - dragStart.x,
-                y: e.clientY - dragStart.y
-            };
+        // Fullscreen image viewer functionality
+        let currentZoom = 1;
+        let isDragging = false;
+        let dragStart = { x: 0, y: 0 };
+        let imagePosition = { x: 0, y: 0 };
+
+        function openFullscreen(imageSrc) {
+            const viewer = document.getElementById('fullscreenViewer');
+            const image = document.getElementById('fullscreenImage');
+
+            image.src = imageSrc;
+            viewer.style.display = 'flex';
+            currentZoom = 1;
+            imagePosition = { x: 0, y: 0 };
+            image.style.transform = 'translate(0, 0) scale(1)';
+
+            // Add drag functionality
+            image.onmousedown = startDrag;
+            document.onmousemove = drag;
+            document.onmouseup = stopDrag;
+        }
+
+        function closeFullscreen() {
+            const viewer = document.getElementById('fullscreenViewer');
+            viewer.style.display = 'none';
+            isDragging = false;
+        }
+
+        function zoomIn() {
+            currentZoom = Math.min(currentZoom + 0.25, 5);
             updateImageTransform();
         }
-    }
 
-    function stopDrag() {
-        isDragging = false;
-    }
-
-    // Close fullscreen on background click
-    document.getElementById('fullscreenViewer').addEventListener('click', (e) => {
-        if (e.target.id === 'fullscreenViewer' || e.target.id === 'fullscreenContent') {
-            closeFullscreen();
+        function zoomOut() {
+            currentZoom = Math.max(currentZoom - 0.25, 0.5);
+            updateImageTransform();
         }
-    });
 
-    // Keyboard shortcuts for fullscreen viewer
-    document.addEventListener('keydown', (e) => {
-        const viewer = document.getElementById('fullscreenViewer');
-        if (viewer.style.display === 'flex') {
-            if (e.key === 'Escape') closeFullscreen();
-            if (e.key === '+' || e.key === '=') zoomIn();
-            if (e.key === '-' || e.key === '_') zoomOut();
-            if (e.key === '0') resetZoom();
+        function resetZoom() {
+            currentZoom = 1;
+            imagePosition = { x: 0, y: 0 };
+            updateImageTransform();
         }
-    });
 
-    // Print report functionality
-    function printReport(caseTitle) {
-        const reportText = document.getElementById('mReport').innerText;
+        function updateImageTransform() {
+            const image = document.getElementById('fullscreenImage');
+            image.style.transform = `translate(${imagePosition.x}px, ${imagePosition.y}px) scale(${currentZoom})`;
+        }
 
-        // Create a new window for printing
-        const printWindow = window.open('', '_blank');
+        function startDrag(e) {
+            if (currentZoom > 1) {
+                isDragging = true;
+                dragStart = { x: e.clientX - imagePosition.x, y: e.clientY - imagePosition.y };
+                e.preventDefault();
+            }
+        }
 
-        printWindow.document.write(`
+        function drag(e) {
+            if (isDragging) {
+                imagePosition = {
+                    x: e.clientX - dragStart.x,
+                    y: e.clientY - dragStart.y
+                };
+                updateImageTransform();
+            }
+        }
+
+        function stopDrag() {
+            isDragging = false;
+        }
+
+        // Close fullscreen on background click
+        document.getElementById('fullscreenViewer').addEventListener('click', (e) => {
+            if (e.target.id === 'fullscreenViewer' || e.target.id === 'fullscreenContent') {
+                closeFullscreen();
+            }
+        });
+
+        // Keyboard shortcuts for fullscreen viewer
+        document.addEventListener('keydown', (e) => {
+            const viewer = document.getElementById('fullscreenViewer');
+            if (viewer.style.display === 'flex') {
+                if (e.key === 'Escape') closeFullscreen();
+                if (e.key === '+' || e.key === '=') zoomIn();
+                if (e.key === '-' || e.key === '_') zoomOut();
+                if (e.key === '0') resetZoom();
+            }
+        });
+
+        // Print report functionality
+        function printReport(caseTitle) {
+            const reportText = document.getElementById('mReport').innerText;
+
+            // Create a new window for printing
+            const printWindow = window.open('', '_blank');
+
+            printWindow.document.write(`
             <!DOCTYPE html>
             <html>
             <head>
@@ -1565,16 +1634,17 @@
             </html>
         `);
 
-        printWindow.document.close();
+            printWindow.document.close();
 
-        // Wait for content to load, then open print dialog
-        printWindow.onload = function() {
-            printWindow.focus();
-            printWindow.print();
-        };
-    }
+            // Wait for content to load, then open print dialog
+            printWindow.onload = function () {
+                printWindow.focus();
+                printWindow.print();
+            };
+        }
 
-</script>
+    </script>
 
 </body>
+
 </html>
